@@ -1,0 +1,23 @@
+{
+  "name": "docapp2020",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/felix24mihai/NodeJS_App.git"
+  },
+  "author": "Felix-Mihai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/felix24mihai/NodeJS_App/issues"
+  },
+  "homepage": "https://github.com/felix24mihai/NodeJS_App#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "pug": "^3.0.0"
+  }
+}
