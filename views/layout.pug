@@ -2,9 +2,53 @@ doctype html
 html
     head
         title DocApp
+        link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.css')
+        link(rel='stylesheet', href='/css/style.css')
     body
-        block content
-        br
-        hr
-        footer
-            p Copyright &copy; 2020
+        nav.navbar.navbar-expand-md.navbar-dark.bg-dark
+            a.navbar-brand(href='#') DocApp
+                button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarsExampleDefault', aria-controls='navbarsExampleDefault', aria-expanded='false', aria-label='Toggle navigation')
+                    span.navbar-toggler-icon
+            #navbarsExampleDefault.collapse.navbar-collapse
+                ul.navbar-nav.mr-auto
+                    li.nav-item.active
+                        a.nav-link(href='#')
+                            | Home 
+                            span.sr-only (current)
+                    li.nav-item
+                        a.nav-link(href='/articles/add') Add Article
+                    //li.nav-item
+                        a.nav-link.disabled(href='#', tabindex='-1', aria-disabled='true') Disabled
+                    //li.li-inline.my-2.my-lg-0
+                        a.nav-link.disabled(href='#', tabindex='-1', aria-disabled='true') Disabled2
+                    li.nav-item.dropdown
+                        a#dropdown01.nav-link.dropdown-toggle(href='#', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Dropdown
+                        .dropdown-menu(aria-labelledby='dropdown01')
+                            a.dropdown-item.form-inline.my-2.my-lg-0(href='/articles/add') Action
+                            a.dropdown-item(href='#') Another action
+                            a.dropdown-item(href='#') Something else here
+                //ul.ul-inline.my-2.my-lg-0
+                    li.li-inline.my-2.my-lg-0
+                            a.nav-link.disabled(href='#', tabindex='-1', aria-disabled='true') Disabled2
+                //form.form-inline.my-2.my-lg-0
+                    li.nav-item
+                        a.nav-link(href='/articles/add') Link
+                    input.form-control.mr-sm-2(type='text' placeholder='Search' aria-label='Search')
+                    button.btn.btn-secondary.my-2.my-sm-0(type='submit') Search
+        .container
+            block content
+            br
+            hr
+            footer
+                p Copyright &copy; 2020
+        script(src='js/main.js')
+        script(src='https://code.jquery.com/jquery-3.5.1.slim.min.js' integrity='sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj' crossorigin='anonymous')
+        script(src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous")
+        script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous")
+        //- script(src='/bower_components/jquery/dist/jquery.js')
+        //- script(src='/bower_components/dist/js')
+        //- script(src='/bower_components/dist/js/dist/dropdown.js')
+        //- script(src='/bower_components/bootstrap/dist/js/bootstrap.js')
+        //- script(src='https://code.jquery.com/jquery-3.5.1.slim.min.js' integrity='sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj' crossorigin='anonymous')
+        //- script.window.jQuery || document.write(script(src='/docs/4.5/assets/js/vendor/jquery.slim.min.js))
+        //- script(src='/docs/4.5/dist/js/bootstrap.bundle.min.js' integrity='sha384-LtrjvnR4Twt/qOuYxE721u19sVFLVSA4hf/rRt6PrZTmiPltdZcI7q7PXQBYTKyf' crossorigin='anonymous')
