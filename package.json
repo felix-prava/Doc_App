@@ -19,7 +19,11 @@
   "dependencies": {
     "ajax": "0.0.4",
     "body-parser": "^1.19.0",
+    "connect-flash": "^0.1.1",
     "express": "^4.17.1",
+    "express-messages": "^1.0.1",
+    "express-session": "^1.17.1",
+    "express-validator": "^5.3.1",
     "jquery": "^3.5.1",
     "mongoose": "^5.10.8",
     "pug": "^3.0.0"
