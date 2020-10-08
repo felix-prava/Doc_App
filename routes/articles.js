@@ -1,11 +1,14 @@
 const express = require('express');
+const { ready } = require('jquery');
 const router = express.Router();
 
 //Bring in Article Model
 let ArticleModel = require('../models/article');
+//Bring in User Model
+let UserModel = require('../models/user');
 
 //Add Route
-router.get('/add', function(req, res){
+router.get('/add', ensureAuthenticated, function(req, res){
     res.render('add_article', {
         title: 'Add Article'
     });
@@ -28,10 +31,10 @@ router.post('/add', function(req, res){
         req.flash('danger', 'Title is required');
         res.redirect('/articles/add');
     }
-    else if(req.body.author == ''){
-        req.flash('danger', 'Author is required');
-        res.redirect('/articles/add');
-    }
+    // else if(req.body.author == ''){
+    //     req.flash('danger', 'Author is required');
+    //     res.redirect('/articles/add');
+    // }
     else if(req.body.body == ''){
         req.flash('danger', 'Body is required');
         res.redirect('/articles/add');
@@ -39,7 +42,7 @@ router.post('/add', function(req, res){
     else{ 
     let article = new ArticleModel();
     article.title = req.body.title;
-    article.author = req.body.author;
+    article.author = req.user._id;
     article.body = req.body.body;
 
     article.save(function(err){
@@ -55,8 +58,12 @@ router.post('/add', function(req, res){
 });
 
 //Load Edit Form
-router.get('/edit/:id', function(req, res){
+router.get('/edit/:id', ensureAuthenticated, function(req, res){
     ArticleModel.findById(req.params.id, function(err, article){
+        if(article.author != req.user._id){
+            req.flash('danger', 'Not Authorized');
+            res.redirect('/');
+        }
         res.render('edit_article', {
             title: 'Edit Article',
             article: article
@@ -86,17 +93,40 @@ router.post('/edit/:id', function(req, res){
 
 //Delete Article
 router.delete('/:id', function(req, res){
+    if (!ready.user._id){
+        res.status(500).send();
+    }
     let query = {_id:req.params.id};
 
+    ArticleModel.findById(req.params._id, function(err, article){
+        if(article.author != req.user._id){
+            res.status(500).send();
+        } else{
+            //Delete
+        }
+    });
 });
 
 //Get Single Article
 router.get('/:id', function(req, res){
     ArticleModel.findById(req.params.id, function(err, article){
-        res.render('article', {
-            article: article
-        });  
+        UserModel.findById(article.author, function(err, user){
+            res.render('article', {
+                article: article,
+                author: user.name
+            }); 
+        });
     });
 });
+
+//Access Control
+function ensureAuthenticated(req, res, nect){
+    if(req.isAuthenticated()){
+        return next();
+    } else{
+        req.flash('danger', 'Please login');
+        res.redirect('/users/login');
+    }
+}
 
 module.exports = router;

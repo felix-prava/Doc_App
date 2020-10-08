@@ -15,8 +15,9 @@ html
                         a.nav-link(href='/')
                             | Home 
                             span.sr-only (current)
-                    li.nav-item
-                        a.nav-link(href='/articles/add') Add Article
+                    if user
+                        li.nav-item
+                            a.nav-link(href='/articles/add') Add Article
                     //li.nav-item
                         a.nav-link.disabled(href='#', tabindex='-1', aria-disabled='true') Disabled
                     //li.li-inline.my-2.my-lg-0
