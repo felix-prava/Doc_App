@@ -28,10 +28,14 @@ html
                             a.dropdown-item(href='/articles/add') Add Article
                             a.dropdown-item(href='#') Something else here
                 ul.nav.nav-navbar.navbar-right
-                    li.nav-item
-                            a.nav-link(href='/users/register', tabindex='-1') Create Account
-                    li.li-inline.my-2.my-lg-0
-                            a.nav-link(href='/users/login', tabindex='-1') Login
+                    if user
+                        li.nav-item
+                            a.nav-link(href='/users/logout') Logout
+                    else
+                        li.nav-item
+                                a.nav-link(href='/users/register', tabindex='-1') Create Account
+                        li.li-inline.my-2.my-lg-0
+                                a.nav-link(href='/users/login', tabindex='-1') Login
                 //form.form-inline.my-2.my-lg-0
                     li.nav-item
                         a.nav-link(href='/articles/add') Link
