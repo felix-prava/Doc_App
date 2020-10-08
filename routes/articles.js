@@ -13,6 +13,17 @@ router.get('/add', function(req, res){
 
 //Add Submit POST Route
 router.post('/add', function(req, res){
+    let query = {title:req.body.title};
+    console.log(query);
+    //console.log(ArticleModel.find({title:req.body.title}).count());
+    // ArticleModel.find({title:req.body.title}, function(err, article){
+    //     if (article.title == req.body.title)
+    //         {console.log(article);
+    //         console.log(req.body.title);}
+    //     else
+    //     {console.log(article);
+    //         console.log(req.body.title);}
+    // });
     if(req.body.title == ''){
         req.flash('danger', 'Title is required');
         res.redirect('/articles/add');
@@ -67,7 +78,7 @@ router.post('/edit/:id', function(req, res){
             console.log(err);
             return;
         } else{
-            req.flash('succes', 'Article Updated');
+            req.flash('success', 'Article Updated');
             res.redirect('/');
         }
     });
