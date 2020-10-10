@@ -120,7 +120,7 @@ router.get('/:id', function(req, res){
 });
 
 //Access Control
-function ensureAuthenticated(req, res, nect){
+function ensureAuthenticated(req, res, next){
     if(req.isAuthenticated()){
         return next();
     } else{

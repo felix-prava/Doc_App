@@ -97,6 +97,34 @@ app.get('/', function(req, res){
     });
 });
 
+//Home Route for Patient
+app.get('/home', function(req, res){
+    ArticleModel.find({}, function(err, articles){
+        if (err){
+            console.log(err);
+        } else{
+            res.render('homePatient', {
+                title: 'Patient Home',
+                articles: articles
+            });
+        }
+    });
+});
+
+//Home Route for Doctor
+app.get('/homeD', function(req, res){
+    ArticleModel.find({}, function(err, articles){
+        if (err){
+            console.log(err);
+        } else{
+            res.render('homeDoctor', {
+                title: 'Doctor Home',
+                articles: articles
+            });
+        }
+    });
+});
+
 //Route Files
 let articles = require('./routes/articles');
 let users = require('./routes/users');

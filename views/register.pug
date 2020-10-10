@@ -18,5 +18,13 @@ block content
         #form-group
             label Confirm Password:
             input.form-control(name='password2', type='password')
-        br
+        #form-group
+            br
+            label Role:
+            br
+            input(type='radio', name='role', value='Doctor')
+            Role Doctor  
+            input(type='radio', name='role', value='Patient')
+            Role Patient<br>
+            br
         input.btn.btn-primary(type='submit', value='Submit')

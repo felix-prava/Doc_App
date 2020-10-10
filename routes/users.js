@@ -18,60 +18,79 @@ router.post('/register', function(req, res){
     const username = req.body.username;
     const password = req.body.password;
     const password2 = req.body.password2;
+    const role = req.body.role;
 
-    if(req.body.name == ''){
-        req.flash('danger', 'Name is required');
-        res.redirect('/users/register');
-    }
-    else if(req.body.email == ''){
-        req.flash('danger', 'Email is required');
-        res.redirect('/users/register');
-    }
-    else if(req.body.username == ''){
-        req.flash('danger', 'Username is required');
-        res.redirect('/users/register');
-    }
-    else if(req.body.password == ''){
-        req.flash('danger', 'Password is required');
-        res.redirect('/users/register');
-    } else{ 
-
-        req.checkBody('email', 'Email is not valid').isEmail();
-        req.checkBody('password2','Passwords do not match').equals(req.body.password);
-
-        let errors = req.validationErrors();
-
-        if(errors){
-            res.render('register', {
-                errors:errors
-            });
-        } else{
-            let newUser = new UserModel({
-                name: name,
-                email: email,
-                username: username,
-                password: password
-            });
-
-            bcrypt.genSalt(10, function(err, salt){
-                bcrypt.hash(newUser.password, salt, function(err, hash){
-                    if (err){
-                        console.log(err);
-                    }
-                    newUser.password = hash;
-                    newUser.save(function(err){
-                        if (err){
-                            console.log(err);
-                            return;
-                        } else{
-                            req.flash('success', 'You are now registered!');
-                            res.redirect('/users/login');
-                        }
-                    });
-                });
-            });
+    UserModel.findOne(req.params.username, function(err, user){
+        if(user.username == req.body.username){
+            req.flash('danger', 'Username is already used');
+            res.redirect('/users/register');
         }
-    }
+        else if(user.email == req.body.email){
+            req.flash('danger', 'Email is already used');
+            res.redirect('/users/register');
+        }
+        else{
+            if(req.body.name == ''){
+                req.flash('danger', 'Name is required');
+                res.redirect('/users/register');
+            }
+            else if(req.body.email == ''){
+                req.flash('danger', 'Email is required');
+                res.redirect('/users/register');
+            }
+            else if(req.body.username == ''){
+                req.flash('danger', 'Username is required');
+                res.redirect('/users/register');
+            }
+            else if(req.body.password == ''){
+                req.flash('danger', 'Password is required');
+                res.redirect('/users/register');
+            } 
+            else if(req.body.role != 'Doctor' && req.body.role != 'Patient'){
+                req.flash('danger', 'Are you a doctor or a patient?');
+                res.redirect('/users/register');
+            } 
+            else{ 
+
+                req.checkBody('email', 'Email is not valid').isEmail();
+                req.checkBody('password2','Passwords do not match').equals(req.body.password);
+
+                let errors = req.validationErrors();
+
+                if(errors){
+                    res.render('register', {
+                        errors:errors
+                    });
+                } else{
+                    let newUser = new UserModel({
+                        name: name,
+                        email: email,
+                        username: username,
+                        password: password,
+                        role: role
+                    });
+
+                    bcrypt.genSalt(10, function(err, salt){
+                        bcrypt.hash(newUser.password, salt, function(err, hash){
+                            if (err){
+                                console.log(err);
+                            }
+                            newUser.password = hash;
+                            newUser.save(function(err){
+                                if (err){
+                                    console.log(err);
+                                    return;
+                                } else{
+                                    req.flash('success', 'You are now registered!');
+                                    res.redirect('/users/login');
+                                }
+                            });
+                        });
+                    });
+                }
+            }
+        } 
+    });
 });
 
 //Login Form
@@ -81,11 +100,20 @@ router.get('/login', function(req, res){
 
 //Login Process
 router.post('/login', function(req, res, next){
-    passport.authenticate('local', {
-        successRedirect:'/',
-        failureRedirect: '/users/login',
-        failureFlash: true
-    })(req, res, next);
+    if (1 == 2){ 
+        passport.authenticate('local', {
+            successRedirect:'/home',
+            failureRedirect: '/users/login',
+            failureFlash: true
+        })(req, res, next);
+    } else{
+        passport.authenticate('local', {
+            successRedirect:'/homeD',
+            failureRedirect: '/users/login',
+            failureFlash: true
+        })(req, res, next);
+    }
+    
 });
 
 //Logout
