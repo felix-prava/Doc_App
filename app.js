@@ -99,31 +99,51 @@ app.get('/', function(req, res){
 
 //Home Route for Patient
 app.get('/home', function(req, res){
-    ArticleModel.find({}, function(err, articles){
-        if (err){
-            console.log(err);
-        } else{
-            res.render('homePatient', {
-                title: 'Patient Home',
-                articles: articles
+    if (req.isAuthenticated()){
+        if (req.user.role === 'Patient'){  
+            ArticleModel.find({}, function(err, articles){
+                if (err){
+                    console.log(err);
+                } else{
+                    res.render('homePatient', {
+                        title: 'Patient Home',
+                        articles: articles
+                    });
+                }
             });
+        } else{
+            req.flash('danger', 'Not Authorized');
+            res.redirect('/homeDoc');
         }
-    });
+    } else{
+        req.flash('danger', 'Please login');
+        res.redirect('/users/login');
+    }
 });
 
 //Home Route for Doctor
-app.get('/homeD', function(req, res){
-    ArticleModel.find({}, function(err, articles){
-        if (err){
-            console.log(err);
-        } else{
-            res.render('homeDoctor', {
-                title: 'Doctor Home',
-                articles: articles
+app.get('/homeDoc',  function(req, res){
+    if (req.isAuthenticated()){
+        if (req.user.role === 'Doctor'){ 
+            ArticleModel.find({}, function(err, articles){
+                if (err){
+                    console.log(err);
+                } else{
+                    res.render('homeDoctor', {
+                        title: 'Doctor Home',
+                        articles: articles
+                    });
+                }
             });
+        } else{
+            req.flash('danger', 'Not Authorized');
+            res.redirect('/home');
         }
-    });
-});
+    } else{
+        req.flash('danger', 'Please login');
+        res.redirect('/users/login');
+    }
+}); 
 
 //Route Files
 let articles = require('./routes/articles');

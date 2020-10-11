@@ -102,18 +102,33 @@ router.get('/login', function(req, res){
 router.post('/login', function(req, res, next){
     if (1 == 2){ 
         passport.authenticate('local', {
-            successRedirect:'/home',
+            successRedirect:'/users/redirect',
             failureRedirect: '/users/login',
             failureFlash: true
         })(req, res, next);
     } else{
         passport.authenticate('local', {
-            successRedirect:'/homeD',
+            successRedirect:'/users/redirect',
             failureRedirect: '/users/login',
             failureFlash: true
         })(req, res, next);
     }
     
+});
+
+//Users Redirect
+router.get('/redirect', function(req, res){
+    if (req.isAuthenticated()){
+        if (req.user.role === 'Doctor'){
+            res.redirect('/homeDoc');
+        }
+        else{
+            res.redirect('/home');
+        }
+    } else{
+        req.flash('danger', 'Please login');
+        res.redirect('/users/login');
+    }
 });
 
 //Logout
@@ -122,5 +137,15 @@ router.get('/logout', function(req, res){
     req.flash('success', 'Logged Out');
     res.redirect('/users/login');
 })
+
+//Access Control
+function ensureAuthenticated(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    } else{
+        req.flash('danger', 'Please login');
+        res.redirect('/users/login');
+    }
+}
 
 module.exports = router;
