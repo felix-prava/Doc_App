@@ -26,13 +26,16 @@ let appointmentSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    body:{
+    details:{
         type: String,
         required: true
     },
     status:{
         type: String,
         required: true
+    },
+    docMessage:{
+        type: String
     }
 });
 

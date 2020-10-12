@@ -2,20 +2,22 @@ extends layout
 
 block content
     h1 Make an easy, quick appointment
-    form#appointment2(method='POST', action='/patients/appointment')
-        #form-group
-            label Doctor's full name/username:
-            input.form-control(name='doctorName', type='text')
+    form#appointment_(method='POST', action='/patients/appointment')
         #form-group
             label Select a doctor:
-            select#appointment2.form-control
+            select#appointment_.form-control(form='appointment_', name='doctorName')
                 each doctor in doctors
-                    option(value=doctor.name, name='list2', type='text') #{doctor.name}
+                    option(name='doctorName', type='text') #{doctor.name}
             br
         #form-group
             label Day:
-            select#selectDay.form-control
-                option(value='default', name='day', form='appointment2', type='text') 31
+            select#selectDay.form-control(form='appointment_', name='day')
+                option(value='31', name='day', form='appointment_', type='text') 31
+            br
+        #form-group
+            label Month:
+            select#selectMonth.form-control(form='appointment_', name='month')
+                option(placeholder='December', name='month', form='appointment_') December
             br
         #form-group
             label Aditional details:
@@ -23,16 +25,6 @@ block content
         br
         input.btn.btn-primary(type='submit', value='Submit')
         br
-        //- ul.list-group
-        //- each doctor, i in doctors
-        //-     li.list-group-item
-        //-         a(href="#"+doctor._id)= doctor.name
-    #form-group
-            label Month:
-            input
-            select#selectMonth
-                option(value='default', name='month', form='appointment2') December
-            br
     script.
       var selectMonth = document.getElementById("selectMonth"),
       arr = ["January ","February","March","April","May","June","July","August","September","October", "November"];
