@@ -148,8 +148,10 @@ app.get('/homeDoc',  function(req, res){
 //Route Files
 let articles = require('./routes/articles');
 let users = require('./routes/users');
+let patients = require('./routes/patients');
 app.use('/articles', articles);
 app.use('/users', users);
+app.use('/patients', patients);
 
 //Start Server
 app.listen(3000, function(){

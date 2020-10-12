@@ -117,18 +117,11 @@ router.post('/login', function(req, res, next){
 });
 
 //Users Redirect
-router.get('/redirect', function(req, res){
-    if (req.isAuthenticated()){
-        if (req.user.role === 'Doctor'){
-            res.redirect('/homeDoc');
-        }
-        else{
-            res.redirect('/home');
-        }
-    } else{
-        req.flash('danger', 'Please login');
-        res.redirect('/users/login');
-    }
+router.get('/redirect', ensureAuthenticated, function(req, res){
+    if (req.user.role === 'Doctor')
+        res.redirect('/homeDoc');
+    else
+        res.redirect('/home');
 });
 
 //Logout

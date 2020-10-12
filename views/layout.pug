@@ -18,6 +18,14 @@ html
                     if user
                         li.nav-item
                             a.nav-link(href='/articles/add') Add Article
+                    if user
+                        if user.role == 'Patient'
+                            li.nav-item
+                                a.nav-link(href='/patients/appointment') Make an appointment
+                    if user
+                        if user.role == 'Patient'
+                            li.nav-item
+                                a.nav-link(href='/patients/doctorslist') List of doctors
                     //li.nav-item
                         a.nav-link.disabled(href='#', tabindex='-1', aria-disabled='true') Disabled
                     //li.li-inline.my-2.my-lg-0
@@ -26,7 +34,12 @@ html
                         a#dropdown01.nav-link.dropdown-toggle(href='#', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') 
                         .dropdown-menu(aria-labelledby='dropdown01')
                             a.dropdown-item.form-inline.my-2.my-lg-0(href='/') Home
-                            a.dropdown-item(href='/articles/add') Add Article
+                            if user
+                                if user.role == 'Patient'
+                                    a.dropdown-item(href='/patients/appointment') Make an appointment
+                            if user
+                                if user.role == 'Patient'
+                                    a.dropdown-item(href='/patients/doctorslist') List of doctors
                             a.dropdown-item(href='#') Something else here
                 ul.nav.nav-navbar.navbar-right
                     if user

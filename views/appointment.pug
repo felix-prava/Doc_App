@@ -1,0 +1,57 @@
+extends layout
+
+block content
+    h1 Make an easy, quick appointment
+    form#appointment2(method='POST', action='/patients/appointment')
+        #form-group
+            label Doctor's full name/username:
+            input.form-control(name='doctorName', type='text')
+        #form-group
+            label Select a doctor:
+            select#appointment2.form-control
+                each doctor in doctors
+                    option(value=doctor.name, name='list2', type='text') #{doctor.name}
+            br
+        #form-group
+            label Day:
+            select#selectDay.form-control
+                option(value='default', name='day', form='appointment2', type='text') 31
+            br
+        #form-group
+            label Aditional details:
+            textarea.form-control(name='details')
+        br
+        input.btn.btn-primary(type='submit', value='Submit')
+        br
+        //- ul.list-group
+        //- each doctor, i in doctors
+        //-     li.list-group-item
+        //-         a(href="#"+doctor._id)= doctor.name
+    #form-group
+            label Month:
+            input
+            select#selectMonth
+                option(value='default', name='month', form='appointment2') December
+            br
+    script.
+      var selectMonth = document.getElementById("selectMonth"),
+      arr = ["January ","February","March","April","May","June","July","August","September","October", "November"];
+      for(var i = 0; i < arr.length; i++)
+      {
+      var option = document.createElement("OPTION"),
+      txt = document.createTextNode(arr[i]);
+      option.appendChild(txt);
+      option.setAttribute("value",arr[i]);
+      selectMonth.insertBefore(option,selectMonth.lastChild);
+      }
+
+      var selectDay = document.getElementById("selectDay"),
+      arr = ["1 ","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21 ","22","23","24","25","26","27","28","29","30"];
+      for(var i = 0; i < arr.length; i++)
+      {
+      var option = document.createElement("OPTION"),
+      txt = document.createTextNode(arr[i]);
+      option.appendChild(txt);
+      option.setAttribute("value",arr[i]);
+      selectDay.insertBefore(option,selectDay.lastChild);
+      }

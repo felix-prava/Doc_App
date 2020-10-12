@@ -1,0 +1,9 @@
+extends layout
+
+block content
+    h1= doctor.username
+    h5 Written by #{author}
+    p= doctor.email
+    hr
+    a.btn.btn-primary(href='/articles/edit/'+doctor._id) Edit
+    a.btn.btn-danger.delete-article(href='#', data-id=doctor._id) Delete
