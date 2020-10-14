@@ -21,7 +21,7 @@ html
                     if user
                         if user.role == 'Patient'
                             li.nav-item
-                                a.nav-link(href='/patients/appointment') Make an appointment
+                                a.nav-link(href='/patients/appointmentChecking') Make an appointment
                     if user
                         if user.role == 'Patient'
                             li.nav-item
@@ -32,7 +32,7 @@ html
                             a.dropdown-item.form-inline.my-2.my-lg-0(href='/') Home
                             if user
                                 if user.role == 'Patient'
-                                    a.dropdown-item(href='/patients/appointment') Make an appointment
+                                    a.dropdown-item(href='/patients/appointmentChecking') Make an appointment
                             if user
                                 if user.role == 'Patient'
                                     a.dropdown-item(href='/patients/doctorslist') List of doctors

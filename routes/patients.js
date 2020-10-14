@@ -5,14 +5,61 @@ const router = express.Router();
 let UserModel = require('../models/user');
 let AppointmentModel = require('../models/appointment');
 
+//Load appointment checking form
+router.get('/appointmentChecking', ensureAuthenticated, function(req, res){
+    UserModel.find({role: 'Doctor'}, function(err, doctors){
+        if (err){
+            console.log(err);
+        } else{
+            res.render('firstAppointment',{
+                doctors: doctors
+            });
+        }
+    });
+});
+
+//Send the information to check the available hours
+router.post('/appointmentChecking', function(req, res){
+    const doctorName = req.body.doctorName;
+    const month = req.body.month;
+    const day = req.body.day;
+
+    if( (day === '31') && (month === 'February' || month === 'April' || month === 'June' || month === 'September' || month === 'November')){
+        req.flash('danger', 'Not a valid day');
+        res.redirect('/patients/appointmentChecking');
+    } else {
+        res.redirect('/patients/appointment?doctorName='+doctorName+'&month='+month+'&day='+day);
+    }
+});
+
 //Load appointment form
 router.get('/appointment', ensureAuthenticated, function(req, res){
+    doctorName = req.query.doctorName;
+    month = req.query.month;
+    day = req.query.day;
+    hours = ["09:00 ","09:45","10:30","11:15","12:00","13:30","14:15","15:00","15:45","16:30","17:15","18:00"];
+    AppointmentModel.find({doctorName: doctorName, month: month, day: day}, function(err, appointments){
+        appointments.forEach(element => {
+            var find = false;
+            hours.forEach(testedHour => {
+                if (testedHour == element.hour)
+                    find = true;
+            })
+            if (find == false)
+                console.log(element.hour);
+            else
+                console.log('ab');
+        });
+    });
+
+
     UserModel.find({role: 'Doctor'}, function(err, doctors){
         if (err){
             console.log(err);
         } else{
             res.render('appointment',{
-                doctors: doctors
+                doctors: doctors,
+                hours: hours
             });
         }
     });
@@ -42,6 +89,7 @@ router.post('/appointment', function(req, res){
                 appointment.month = month;
                 appointment.day = day;
                 appointment.details = details;
+                appointment.hour = '13:30';
                 appointment.status = 'Sent';
                 appointment.save(function(err){
                     if (err){
