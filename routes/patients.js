@@ -23,8 +23,11 @@ router.post('/appointmentChecking', function(req, res){
     const doctorName = req.body.doctorName;
     const month = req.body.month;
     const day = req.body.day;
-
-    if( (day === '31') && (month === 'February' || month === 'April' || month === 'June' || month === 'September' || month === 'November')){
+    if( (day === '29' && month === 'February') || (day === '30' && month === 'February')){
+        req.flash('danger', 'Not a valid day');
+        res.redirect('/patients/appointmentChecking');
+    }
+    else if( (day === '31') && (month === 'February' || month === 'April' || month === 'June' || month === 'September' || month === 'November')){
         req.flash('danger', 'Not a valid day');
         res.redirect('/patients/appointmentChecking');
     } else {
@@ -38,28 +41,23 @@ router.get('/appointment', ensureAuthenticated, function(req, res){
     month = req.query.month;
     day = req.query.day;
     hours = ["09:00 ","09:45","10:30","11:15","12:00","13:30","14:15","15:00","15:45","16:30","17:15","18:00"];
+    freeHours = [];
     AppointmentModel.find({doctorName: doctorName, month: month, day: day}, function(err, appointments){
-        appointments.forEach(element => {
-            var find = false;
-            hours.forEach(testedHour => {
-                if (testedHour == element.hour)
-                    find = true;
-            })
-            if (find == false)
-                console.log(element.hour);
-            else
-                console.log('ab');
-        });
-    });
-
-
-    UserModel.find({role: 'Doctor'}, function(err, doctors){
         if (err){
             console.log(err);
-        } else{
+        } else{ 
+            hours.forEach(testedHour => {
+                var find = false;
+                appointments.forEach(element => {
+                    if (testedHour == element.hour)
+                        find = true;
+                })
+                if (find == false)
+                    freeHours.push(testedHour);
+            })
             res.render('appointment',{
-                doctors: doctors,
-                hours: hours
+                hours: freeHours,
+                doctorName: doctorName
             });
         }
     });
@@ -67,16 +65,15 @@ router.get('/appointment', ensureAuthenticated, function(req, res){
 
 //Add an appointment
 router.post('/appointment', function(req, res){
-    const doctorName = req.body.doctorName;
-    const month = req.body.month;
-    const day = req.body.day;
+    const doctorName = req.query.doctorName;
+    const month = req.query.month;
+    const day = req.query.day;
+    const hour = req.body.hour;
     const details = req.body.details;
-
-    if( (day === '31') && (month === 'February' || month === 'April' || month === 'June' || month === 'September' || month === 'November')){
-        req.flash('danger', 'Not a valid day');
-        res.redirect('/patients/appointment');
-    } else{
-
+    if(details == '' ){
+        req.flash('danger', 'Give us some details about your problem');
+        res.redirect('/patients/appointment?doctorName='+doctorName+'&month='+month+'&day='+day);
+    } else{ 
         UserModel.findOne({name: doctorName}, function(err, doctor){
             if (err){
                 console.log(err);
@@ -89,8 +86,9 @@ router.post('/appointment', function(req, res){
                 appointment.month = month;
                 appointment.day = day;
                 appointment.details = details;
-                appointment.hour = '13:30';
+                appointment.hour = hour;
                 appointment.status = 'Sent';
+                appointment.year = '2020';
                 appointment.save(function(err){
                     if (err){
                         console.log(err);

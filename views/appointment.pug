@@ -2,13 +2,7 @@ extends layout
 
 block content
     h1 Make an easy, quick appointment
-    form#appointment_(method='POST', action='/patients/appointment')
-        #form-group
-            label Select a doctor:
-            select#appointment_.form-control(form='appointment_', name='doctorName')
-                each doctor in doctors
-                    option(name='doctorName', type='text') #{doctor.name}
-            br
+    form#appointment_(method='POST', action='/patients/appointment?doctorName='+doctorName+'&month='+month+'&day='+day)
         #form-group
             label Select a hour:
             select#appointment_.form-control(form='appointment_', name='hour')
@@ -16,56 +10,8 @@ block content
                     option(name='hour', type='text') #{hour}
             br
         #form-group
-            label Day:
-            select#selectDay.form-control(form='appointment_', name='day')
-                option(value='31', name='day', form='appointment_', type='text') 31
-            br
-        #form-group
-            label Month:
-            select#selectMonth.form-control(form='appointment_', name='month')
-                option(placeholder='December', name='month', form='appointment_') December
-            br
-        #form-group
-            label Hour:
-            select#selectHour.form-control(form='appointment_', name='hour')
-                option(placeholder='18:00', name='hour', form='appointment_') 18:00
-            br
-        #form-group
             label Aditional details:
             textarea.form-control(name='details')
         br
         input.btn.btn-primary(type='submit', value='Submit')
         br
-    script.
-      var selectMonth = document.getElementById("selectMonth"),
-      arr = ["January ","February","March","April","May","June","July","August","September","October", "November"];
-      for(var i = 0; i < arr.length; i++)
-      {
-      var option = document.createElement("OPTION"),
-      txt = document.createTextNode(arr[i]);
-      option.appendChild(txt);
-      option.setAttribute("value",arr[i]);
-      selectMonth.insertBefore(option,selectMonth.lastChild);
-      }
-
-      var selectDay = document.getElementById("selectDay"),
-      arr = ["1 ","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21 ","22","23","24","25","26","27","28","29","30"];
-      for(var i = 0; i < arr.length; i++)
-      {
-      var option = document.createElement("OPTION"),
-      txt = document.createTextNode(arr[i]);
-      option.appendChild(txt);
-      option.setAttribute("value",arr[i]);
-      selectDay.insertBefore(option,selectDay.lastChild);
-      }
-
-      var selectHour = document.getElementById("selectHour"),
-      arr = ["1 ","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21 ","22","23","24","25","26","27","28","29","30"];
-      for(var i = 0; i < arr.length; i++)
-      {
-      var option = document.createElement("OPTION"),
-      txt = document.createTextNode(arr[i]);
-      option.appendChild(txt);
-      option.setAttribute("value",arr[i]);
-      selectHour.insertBefore(option,selectHour.lastChild);
-      }
