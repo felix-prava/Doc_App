@@ -26,6 +26,10 @@ html
                         if user.role == 'Patient'
                             li.nav-item
                                 a.nav-link(href='/patients/doctorslist') List of doctors
+                    if user
+                        if user.role == 'Doctor'
+                            li.nav-item
+                                a.nav-link(href='/doctors/selectDate') List of future appointments
                     li.nav-item.dropdown
                         a#dropdown01.nav-link.dropdown-toggle(href='#', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') 
                         .dropdown-menu(aria-labelledby='dropdown01')
@@ -36,6 +40,9 @@ html
                             if user
                                 if user.role == 'Patient'
                                     a.dropdown-item(href='/patients/doctorslist') List of doctors
+                            if user
+                                if user.role == 'Doctor'
+                                    a.dropdown-item(href='/doctors/selectDate') Future appointments
                             a.dropdown-item(href='#') Something else here
                 ul.nav.nav-navbar.navbar-right
                     if user

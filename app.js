@@ -149,9 +149,11 @@ app.get('/homeDoc',  function(req, res){
 let articles = require('./routes/articles');
 let users = require('./routes/users');
 let patients = require('./routes/patients');
+let doctors = require('./routes/doctors');
 app.use('/articles', articles);
 app.use('/users', users);
 app.use('/patients', patients);
+app.use('/doctors', doctors);
 
 //Start Server
 app.listen(3000, function(){
