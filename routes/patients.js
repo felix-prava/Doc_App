@@ -40,7 +40,7 @@ router.get('/appointment', ensureAuthenticated, function(req, res){
     doctorName = req.query.doctorName;
     month = req.query.month;
     day = req.query.day;
-    hours = ["09:00 ","09:45","10:30","11:15","12:00","13:30","14:15","15:00","15:45","16:30","17:15","18:00"];
+    hours = ["09:00","09:45","10:30","11:15","12:00","13:30","14:15","15:00","15:45","16:30","17:15","18:00"];
     freeHours = [];
     AppointmentModel.find({doctorName: doctorName, month: month, day: day}, function(err, appointments){
         if (err){
@@ -55,7 +55,7 @@ router.get('/appointment', ensureAuthenticated, function(req, res){
                 if (find == false)
                     freeHours.push(testedHour);
             })
-            res.render('appointment',{
+            res.render('add_appointment',{
                 hours: freeHours,
                 doctorName: doctorName
             });

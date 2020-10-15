@@ -1,8 +1,8 @@
 extends layout
 
 block content
-    h1 App
+    h1 #{title}
     ul.list-group
     each appointment, i in appointments
         li.list-group-item
-            a(href="/articles/")= appointment.patientName
+            a(href="/doctors/appointment/"+appointment.id)= 'Appointment for: '+ appointment.patientName + ' at: ' + appointment.hour

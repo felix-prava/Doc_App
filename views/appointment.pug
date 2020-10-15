@@ -1,17 +1,28 @@
 extends layout
 
 block content
-    h1 Make an easy, quick appointment
-    form#appointment_(method='POST', action='/patients/appointment?doctorName='+doctorName+'&month='+month+'&day='+day)
-        #form-group
-            label Select a hour:
-            select#appointment_.form-control(form='appointment_', name='hour')
-                each hour in hours
-                    option(name='hour', type='text') #{hour}
+    h1 Patient's name: #{appointment.patientName}
+    hr
+    h5 Time #{appointment.hour}
+    h6 Patient's message:
+    p= appointment.details
+    hr
+    if appointment.status == 'Sent'
+        a.btn.btn-primary(href='/doctors/appointment/done/'+appointment._id) Appointment Complete
+    if appointment.status == 'Resolved'
+        form(method='POST', action='/doctors/appointment/'+appointment._id)
             br
-        #form-group
-            label Aditional details:
-            textarea.form-control(name='details')
-        br
-        input.btn.btn-primary(type='submit', value='Submit')
-        br
+            h5 Would you like to set up a new meeting for a regular check?
+            p If so, in how many months?
+            .container2
+                label(for='small') Small
+                    input#small(type='radio' name='size' checked='checked' value='Small')
+                    span
+                br
+                label(for='big') Big
+                    input#big(type='radio' name='size' value='Big')
+                    span
+                
+            br
+            //a.btn.btn-primary(href='/doctors/appointment/'+appointment._id) Set a new appointment
+            input.btn.btn-primary(type='submit', value='Submit')
