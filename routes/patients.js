@@ -23,6 +23,8 @@ router.post('/appointmentChecking', function(req, res){
     const doctorName = req.body.doctorName;
     const month = req.body.month;
     const day = req.body.day;
+    const year = req.body.year;
+    
     if( (day === '29' && month === 'February') || (day === '30' && month === 'February')){
         req.flash('danger', 'Not a valid day');
         res.redirect('/patients/appointmentChecking');
@@ -31,7 +33,7 @@ router.post('/appointmentChecking', function(req, res){
         req.flash('danger', 'Not a valid day');
         res.redirect('/patients/appointmentChecking');
     } else {
-        res.redirect('/patients/appointment?doctorName='+doctorName+'&month='+month+'&day='+day);
+        res.redirect('/patients/appointment?doctorName='+doctorName+'&month='+month+'&day='+day+'&year='+year);
     }
 });
 
@@ -40,9 +42,10 @@ router.get('/appointment', ensureAuthenticated, function(req, res){
     doctorName = req.query.doctorName;
     month = req.query.month;
     day = req.query.day;
+    year = req.query.year;
     hours = ["09:00","09:45","10:30","11:15","12:00","13:30","14:15","15:00","15:45","16:30","17:15","18:00"];
     freeHours = [];
-    AppointmentModel.find({doctorName: doctorName, month: month, day: day}, function(err, appointments){
+    AppointmentModel.find({doctorName: doctorName, month: month, day: day, status:'Sent', year: year}, function(err, appointments){
         if (err){
             console.log(err);
         } else{ 
@@ -69,10 +72,11 @@ router.post('/appointment', function(req, res){
     const month = req.query.month;
     const day = req.query.day;
     const hour = req.body.hour;
+    const year = req.query.year;
     const details = req.body.details;
     if(details == '' ){
         req.flash('danger', 'Give us some details about your problem');
-        res.redirect('/patients/appointment?doctorName='+doctorName+'&month='+month+'&day='+day);
+        res.redirect('/patients/appointment?doctorName='+doctorName+'&month='+month+'&day='+day+'&year='+year);
     } else{ 
         UserModel.findOne({name: doctorName}, function(err, doctor){
             if (err){
@@ -88,7 +92,7 @@ router.post('/appointment', function(req, res){
                 appointment.details = details;
                 appointment.hour = hour;
                 appointment.status = 'Sent';
-                appointment.year = '2020';
+                appointment.year = year;
                 appointment.save(function(err){
                     if (err){
                         console.log(err);

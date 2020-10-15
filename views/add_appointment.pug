@@ -2,7 +2,7 @@ extends layout
 
 block content
     h1 Make an easy, quick appointment
-    form#appointment_(method='POST', action='/patients/appointment?doctorName='+doctorName+'&month='+month+'&day='+day)
+    form#appointment_(method='POST', action='/patients/appointment?doctorName='+doctorName+'&month='+month+'&day='+day+'&year='+year)
         #form-group
             label Select a hour:
             select#appointment_.form-control(form='appointment_', name='hour')

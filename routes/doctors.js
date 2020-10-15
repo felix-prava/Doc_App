@@ -105,7 +105,52 @@ router.post('/appointment/:id', function(req, res){
         if (err){
             console.log(err);
         } else{
-            res.redirect('/doctors/appointment/'+req.params.id);
+            let appointmentDone = new AppointmentModel();
+            var nextMonth = Number(req.body.size);
+            var changeYear = false;
+            arr = ["January","February","March","April","May","June","July","August","September","October", "November","December"];
+            for(var i = 0; i < arr.length; i++){
+                if (arr[i] == appointment.month)
+                    var index = i + 1;
+            }
+            if (index + nextMonth > 12){
+                changeYear = true;
+                nextMonth = (index + nextMonth) % 12;
+            }
+            else{ 
+                nextMonth = (index + nextMonth);
+            }
+            
+            var newYear = '';
+            if (changeYear == true){
+                if (appointment.year == '2020')
+                    newYear = '2021';
+                else if (appointment.year == '2021')
+                    newYear = '2022';
+            } else{
+                newYear = '2020';
+            }
+
+            appointmentDone.doctorId = appointment.doctorId;
+            appointmentDone.doctorName = appointment.doctorName;
+            appointmentDone.patientId = appointment.patientId;
+            appointmentDone.patientName = appointment.patientName;
+            appointmentDone.month = arr[nextMonth - 1];
+            appointmentDone.day = appointment.day;
+            appointmentDone.details = 'Dental control';
+            appointmentDone.hour = appointment.hour;
+            appointmentDone.status = 'Sent';
+            appointmentDone.year = newYear;
+            
+            appointmentDone.save(function(err){
+                if (err){
+                    console.log(err);
+                    return;
+                } else{
+                    req.flash('success', 'New Appointment Set');
+                    res.redirect('/homeDoc');
+                }
+            });
         }
     });
 });

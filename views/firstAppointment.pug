@@ -19,6 +19,11 @@ block content
             select#selectMonth.form-control(form='appointment_', name='month')
                 option(placeholder='December', name='month', form='appointment_') December
             br
+        #form-group
+            label Year:
+            select#selectYear.form-control(form='appointment_', name='year')
+                option(placeholder='2021', name='year', form='appointment_') 2021
+            br
         br
         input.btn.btn-primary(type='submit', value='Check')
         br
@@ -43,4 +48,15 @@ block content
       option.appendChild(txt);
       option.setAttribute("value",arr[i]);
       selectDay.insertBefore(option,selectDay.lastChild);
+      }
+
+      var selectYear = document.getElementById("selectYear"),
+      arr = ["2020"];
+      for(var i = 0; i < arr.length; i++)
+      {
+      var option = document.createElement("OPTION"),
+      txt = document.createTextNode(arr[i]);
+      option.appendChild(txt);
+      option.setAttribute("value",arr[i]);
+      selectYear.insertBefore(option,selectYear.lastChild);
       }

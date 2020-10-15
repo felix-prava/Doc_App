@@ -15,14 +15,17 @@ block content
             h5 Would you like to set up a new meeting for a regular check?
             p If so, in how many months?
             .container2
-                label(for='small') Small
-                    input#small(type='radio' name='size' checked='checked' value='Small')
+                label(for='one') One Month
+                    input#one(type='radio' name='size' checked='checked' value=1)
                     span
                 br
-                label(for='big') Big
-                    input#big(type='radio' name='size' value='Big')
+                label(for='two') Two Months
+                    input#two(type='radio' name='size' value=2)
                     span
-                
+                br
+                label(for='three') Three Months
+                    input#three(type='radio' name='size' value=3)
+                    span   
             br
             //a.btn.btn-primary(href='/doctors/appointment/'+appointment._id) Set a new appointment
-            input.btn.btn-primary(type='submit', value='Submit')
+            input.btn.btn-primary(type='submit', value='Set a new appointment')
