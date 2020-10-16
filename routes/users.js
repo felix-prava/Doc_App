@@ -67,7 +67,8 @@ router.post('/register', function(req, res){
                         email: email,
                         username: username,
                         password: password,
-                        role: role
+                        role: role,
+                        profile: ''
                     });
 
                     bcrypt.genSalt(10, function(err, salt){

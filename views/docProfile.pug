@@ -1,9 +1,9 @@
 extends layout
 
 block content
-    h1= doctor.username
-    h5 Written by #{author}
-    p= doctor.email
+    h1= doctor.name
+    a(href='https://mail.yahoo.com/') #{doctor.email}
+    br
     hr
     a.btn.btn-primary(href='/patients/doctorPofile/edit'+doctor._id) Edit
     a.btn.btn-danger.delete-article(href='#', data-id=doctor._id) Delete

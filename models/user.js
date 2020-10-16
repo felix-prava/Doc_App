@@ -21,6 +21,9 @@ let UserSchema = mongoose.Schema({
     role:{
         type: String,
         required: true
+    },
+    profile:{
+        type: String
     }
 });
 

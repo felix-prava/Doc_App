@@ -5,6 +5,47 @@ const router = express.Router();
 let UserModel = require('../models/user');
 let AppointmentModel = require('../models/appointment');
 
+//Profile Editing Form
+router.get('/profile', ensureAuthenticated, function(req, res){
+    UserModel.findById(req.user._id, function(err, user){
+        if (err){
+            console.log(err);
+        } else{
+            res.render('docProfileEdit',{
+                user: user
+            });
+        }
+    })
+});
+
+//Update Profile
+router.post('/profile', function(req, res){
+    let newUser = {};
+    newUser.name = req.user.name;
+    newUser.email = req.body.email;
+    newUser.username = req.user.username;
+    newUser.password = req.user.password;
+    newUser.role = 'Doctor';
+    newUser.profile = req.body.profile;
+
+    req.checkBody('email', 'Email is not valid').isEmail();
+    let errors = req.validationErrors();
+    if(errors){
+        req.flash('danger', 'Email is not valid');
+        res.redirect('/doctors/profile');
+    } else{
+        UserModel.updateOne({_id:req.user._id}, newUser, function(err){
+            if (err){
+                console.log(err);
+                return;
+            } else{
+                req.flash('success', 'Profile Updated');
+                res.redirect('/homeDoc');
+            }
+        });
+    }
+});
+
 //Select a date for future appointments
 router.get('/selectDate', ensureAuthenticated, function(req, res){
     res.render('docSelectNextApp');

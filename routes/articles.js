@@ -18,23 +18,10 @@ router.get('/add', ensureAuthenticated, function(req, res){
 router.post('/add', function(req, res){
     let query = {title:req.body.title};
     console.log(query);
-    //console.log(ArticleModel.find({title:req.body.title}).count());
-    // ArticleModel.find({title:req.body.title}, function(err, article){
-    //     if (article.title == req.body.title)
-    //         {console.log(article);
-    //         console.log(req.body.title);}
-    //     else
-    //     {console.log(article);
-    //         console.log(req.body.title);}
-    // });
     if(req.body.title == ''){
         req.flash('danger', 'Title is required');
         res.redirect('/articles/add');
     }
-    // else if(req.body.author == ''){
-    //     req.flash('danger', 'Author is required');
-    //     res.redirect('/articles/add');
-    // }
     else if(req.body.body == ''){
         req.flash('danger', 'Body is required');
         res.redirect('/articles/add');

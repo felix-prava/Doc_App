@@ -121,7 +121,7 @@ router.get('/doctorslist', ensureAuthenticated, function(req, res){
 });
 
 //Get Single Doctor
-router.get('/doctorPofile/:id', function(req, res){
+router.get('/doctorPofile/:id', ensureAuthenticated, function(req, res){
     UserModel.findById(req.params.id, function(err, user){
         res.render('docProfile', {
             doctor: user,
