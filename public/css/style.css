@@ -9,3 +9,54 @@
     background-color: #dff0d8;
     border-color: #d6e9c6;
 }
+
+#star1,#star2,#star3,#star4,#star5{
+    margin: 7px;
+}
+
+.rating{
+    position: absolute;
+    padding-right: 10px;
+    transform: translate(-50% -50%) rotateY(180deg);
+    display: flex;
+    direction: rtl;
+}
+
+.rating input{
+    display: none;
+}
+
+.rating label{
+    display: block;
+    cursor: pointer;
+    width: 28px;
+}
+
+.rating label:before{
+    content: '\f005';
+    font-family: fontAwesome;
+    position: relative;
+    display: block;
+    font-size: 30px;
+    color: #101010;
+}
+
+.rating label:after{
+    content: '\f005';
+    font-family: fontAwesome;
+    position: absolute;
+    display: block;
+    font-size: 30px;
+    color: #1f9cff;
+    top: 0px;
+    opacity: 0;
+    transition: .5s;
+    text-shadow: 0 2px 5px rgba(0,0,0,.5);
+}
+
+.rating label:hover:after,
+.rating label:hover ~ label:after,
+.rating input:checked ~ label:after
+{
+    opacity: 1;
+}

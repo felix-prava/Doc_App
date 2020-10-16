@@ -124,11 +124,25 @@ router.get('/doctorslist', ensureAuthenticated, function(req, res){
 router.get('/doctorPofile/:id', ensureAuthenticated, function(req, res){
     UserModel.findById(req.params.id, function(err, user){
         res.render('docProfile', {
-            doctor: user,
-            author: user.name
+            doctor: user
         }); 
     });
 });
+
+router.get('/review/:id', ensureAuthenticated, function(req, res){
+    UserModel.findById(req.params.id, function(err, user){
+        res.render('reviewForm', {
+            doctor: user
+        }); 
+    });
+});
+
+router.post('/review/:id', function(req, res){
+    console.log('aaa');
+    console.log(req.body.star);
+    console.log(req.body.description);
+    res.redirect('/patients/review/'+req.params.id);
+})
 
 //Access Control
 function ensureAuthenticated(req, res, next){

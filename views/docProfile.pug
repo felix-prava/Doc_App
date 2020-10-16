@@ -2,8 +2,11 @@ extends layout
 
 block content
     h1= doctor.name
-    a(href='https://mail.yahoo.com/') #{doctor.email}
-    br
     hr
-    a.btn.btn-primary(href='/patients/doctorPofile/edit'+doctor._id) Edit
-    a.btn.btn-danger.delete-article(href='#', data-id=doctor._id) Delete
+    a(href='https://mail.yahoo.com/') #{doctor.email}
+    hr
+    div
+        p= doctor.profile
+    hr
+    a.btn.btn-primary(href='/patients/review/'+doctor._id) Add a review
+    //a.btn.btn-danger.delete-article(href='#', data-id=doctor._id) Delete
