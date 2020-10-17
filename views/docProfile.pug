@@ -8,10 +8,34 @@ block content
     div
         p= doctor.profile
     hr
+    br
+    br
+    br
+    if (reviews.length > 0)
+        h5 See what others think of this doctor
+        hr
+    else
+        h5 No one rewiewed this doctor. You should be the first!
+        hr
     ul.list-group
     each review, i in reviews
-        li.list-group-item
-            a(href="/articles/")= review.patientMessage
-    hr
+        ul.list-group
+            if (review.numberOfStars == '5')
+                li.list-group-item
+                    a(href="/articles/")= review.patientName + ': ⭐⭐⭐⭐⭐'
+            if (review.numberOfStars == '4')
+                li.list-group-item
+                    a(href="/articles/")= review.patientName + ': ⭐⭐⭐⭐'
+            if (review.numberOfStars == '3')
+                li.list-group-item
+                    a(href="/articles/")= review.patientName + ': ⭐⭐⭐'
+            if (review.numberOfStars == '2')
+                li.list-group-item
+                    a(href="/articles/")= review.patientName + ': ⭐⭐'
+            if (review.numberOfStars == '1')
+                li.list-group-item
+                    a(href="/articles/")= review.patientName + ': ⭐'
+            li.list-group-item= review.patientMessage
+        hr
     a.btn.btn-primary(href='/patients/review/'+doctor._id) Add a review
     //a.btn.btn-danger.delete-article(href='#', data-id=doctor._id) Delete
