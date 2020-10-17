@@ -17,9 +17,6 @@ html
                             | Home 
                             span.sr-only (current)
                     if user
-                        li.nav-item
-                            a.nav-link(href='/articles/add') Add Article
-                    if user
                         if user.role == 'Patient'
                             li.nav-item
                                 a.nav-link(href='/patients/appointmentChecking') Make an appointment
