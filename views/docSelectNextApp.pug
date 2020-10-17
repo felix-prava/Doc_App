@@ -1,0 +1,56 @@
+extends layout
+
+block content
+    h1 Choose a date to see your schedule
+    form#appointment_(method='POST', action='/doctors/selectDate')
+        #form-group
+            label Day:
+            select#selectDay.form-control(form='appointment_', name='day')
+                option(value='31', name='day', form='appointment_', type='text') 31
+            br
+        #form-group
+            label Month:
+            select#selectMonth.form-control(form='appointment_', name='month')
+                option(placeholder='December', name='month', form='appointment_') December
+            br
+        #form-group
+            label Year:
+            select#selectYear.form-control(form='appointment_', name='year')
+                option(placeholder='2021', name='year', form='appointment_') 2021
+            br
+        br
+        input.btn.btn-primary(type='submit', value='Check')
+        br
+    script.
+      var selectMonth = document.getElementById("selectMonth"),
+      arr = ["January","February","March","April","May","June","July","August","September","October", "November"];
+      for(var i = 0; i < arr.length; i++)
+      {
+      var option = document.createElement("OPTION"),
+      txt = document.createTextNode(arr[i]);
+      option.appendChild(txt);
+      option.setAttribute("value",arr[i]);
+      selectMonth.insertBefore(option,selectMonth.lastChild);
+      }
+
+      var selectDay = document.getElementById("selectDay"),
+      arr = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21 ","22","23","24","25","26","27","28","29","30"];
+      for(var i = 0; i < arr.length; i++)
+      {
+      var option = document.createElement("OPTION"),
+      txt = document.createTextNode(arr[i]);
+      option.appendChild(txt);
+      option.setAttribute("value",arr[i]);
+      selectDay.insertBefore(option,selectDay.lastChild);
+      }
+
+      var selectYear = document.getElementById("selectYear"),
+      arr = ["2020"];
+      for(var i = 0; i < arr.length; i++)
+      {
+      var option = document.createElement("OPTION"),
+      txt = document.createTextNode(arr[i]);
+      option.appendChild(txt);
+      option.setAttribute("value",arr[i]);
+      selectYear.insertBefore(option,selectYear.lastChild);
+      }

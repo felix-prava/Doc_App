@@ -1,0 +1,31 @@
+extends layout
+
+block content
+    h1 Patient's name: #{appointment.patientName}
+    hr
+    h5 Time #{appointment.hour}
+    h6 Patient's message:
+    p= appointment.details
+    hr
+    if appointment.status == 'Sent'
+        a.btn.btn-primary(href='/doctors/appointment/done/'+appointment._id) Appointment Complete
+    if appointment.status == 'Resolved'
+        form(method='POST', action='/doctors/appointment/'+appointment._id)
+            br
+            h5 Would you like to set up a new meeting for a regular check?
+            p If so, in how many months?
+            .container2
+                label(for='one') One Month
+                    input#one(type='radio' name='size' checked='checked' value=1)
+                    span
+                br
+                label(for='two') Two Months
+                    input#two(type='radio' name='size' value=2)
+                    span
+                br
+                label(for='three') Three Months
+                    input#three(type='radio' name='size' value=3)
+                    span   
+            br
+            //a.btn.btn-primary(href='/doctors/appointment/'+appointment._id) Set a new appointment
+            input.btn.btn-primary(type='submit', value='Set a new appointment')

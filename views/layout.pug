@@ -1,0 +1,79 @@
+doctype html
+html
+    head
+        title DocApp
+        link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.css')
+        link(rel='stylesheet', href='/css/style.css')
+        link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
+    body
+        nav.navbar.navbar-expand-md.navbar-dark.bg-dark
+            a.navbar-brand(href='#') DocApp
+                button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarsExampleDefault', aria-controls='navbarsExampleDefault', aria-expanded='false', aria-label='Toggle navigation')
+                    span.navbar-toggler-icon
+            #navbarsExampleDefault.collapse.navbar-collapse
+                ul.navbar-nav.mr-auto
+                    li.nav-item.active
+                        a.nav-link(href='/')
+                            | Home 
+                            span.sr-only (current)
+                    if user
+                        li.nav-item
+                            a.nav-link(href='/articles/add') Add Article
+                    if user
+                        if user.role == 'Patient'
+                            li.nav-item
+                                a.nav-link(href='/patients/appointmentChecking') Make an appointment
+                    if user
+                        if user.role == 'Patient'
+                            li.nav-item
+                                a.nav-link(href='/patients/doctorslist') List of doctors
+                    if user
+                        if user.role == 'Doctor'
+                            li.nav-item
+                                a.nav-link(href='/doctors/selectDate') List of future appointments
+                            li.nav-item
+                                a.nav-link(href='/doctors/profile') My profile
+                    li.nav-item.dropdown
+                        a#dropdown01.nav-link.dropdown-toggle(href='#', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') 
+                        .dropdown-menu(aria-labelledby='dropdown01')
+                            a.dropdown-item.form-inline.my-2.my-lg-0(href='/') Home
+                            if user
+                                if user.role == 'Patient'
+                                    a.dropdown-item(href='/patients/appointmentChecking') Make an appointment
+                            if user
+                                if user.role == 'Patient'
+                                    a.dropdown-item(href='/patients/doctorslist') List of doctors
+                            if user
+                                if user.role == 'Doctor'
+                                    a.dropdown-item(href='/doctors/selectDate') Future appointments
+                                    a.dropdown-item(href='/doctors/profile') My profile
+                            a.dropdown-item(href='#') Something else here
+                ul.nav.nav-navbar.navbar-right
+                    if user
+                        li.nav-item
+                            a.nav-link(href='/users/logout') Logout
+                    else
+                        li.nav-item
+                                a.nav-link(href='/users/register', tabindex='-1') Create Account
+                        li.li-inline.my-2.my-lg-0
+                                a.nav-link(href='/users/login', tabindex='-1') Login
+                //form.form-inline.my-2.my-lg-0
+                    li.nav-item
+                        a.nav-link(href='/articles/add') Link
+                    input.form-control.mr-sm-2(type='text' placeholder='Search' aria-label='Search')
+                    button.btn.btn-secondary.my-2.my-sm-0(type='submit') Search
+        .container
+            br
+            != messages('message', locals)
+            if errors
+                each error, i in errors
+                    div(class="alert alert-danger") #{error.msg}
+            block content
+            br
+            hr
+            footer
+                p Copyright &copy; 2020
+        script(src='js/main.js')
+        script(src='https://code.jquery.com/jquery-3.5.1.slim.min.js' integrity='sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj' crossorigin='anonymous')
+        script(src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous")
+        script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous")

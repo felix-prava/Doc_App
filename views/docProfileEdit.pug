@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    h1 Edit your profile
+    form(method='POST', action='/doctors/profile')
+        #form-group
+            label Email:
+            input.form-control(name='email', type='text', value= user.email) 
+        #form-group
+            label Profile:
+            textarea.form-control(name='profile')= user.profile
+        br
+        input.btn.btn-primary(type='submit', value='Submit')

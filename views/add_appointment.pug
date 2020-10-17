@@ -1,0 +1,17 @@
+extends layout
+
+block content
+    h1 Make an easy, quick appointment
+    form#appointment_(method='POST', action='/patients/appointment?doctorName='+doctorName+'&month='+month+'&day='+day+'&year='+year)
+        #form-group
+            label Select a hour:
+            select#appointment_.form-control(form='appointment_', name='hour')
+                each hour in hours
+                    option(name='hour', type='text') #{hour}
+            br
+        #form-group
+            label Aditional details:
+            textarea.form-control(name='details')
+        br
+        input.btn.btn-primary(type='submit', value='Submit')
+        br

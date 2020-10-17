@@ -1,0 +1,8 @@
+extends layout
+
+block content
+    h1 The List of Doctors
+    ul.list-group
+    each doctor, i in doctors
+        li.list-group-item
+            a(href="/patients/doctorPofile/"+doctor._id)= doctor.name
