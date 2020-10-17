@@ -8,5 +8,10 @@ block content
     div
         p= doctor.profile
     hr
+    ul.list-group
+    each review, i in reviews
+        li.list-group-item
+            a(href="/articles/")= review.patientMessage
+    hr
     a.btn.btn-primary(href='/patients/review/'+doctor._id) Add a review
     //a.btn.btn-danger.delete-article(href='#', data-id=doctor._id) Delete

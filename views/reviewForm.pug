@@ -6,20 +6,20 @@ block content
     h5 Rating
     form(method='POST', action='/patients/review/'+doctor._id)
         div.rating
-            input#star1(type='radio' name='star' value='1')
+            input#star1(type='radio' name='star' value='5')
             label(for='star1')
-            input#star2(type='radio' name='star' value='2')
+            input#star2(type='radio' name='star' value='4')
             label(for='star2')
             input#star3(type='radio' name='star' value='3')
             label(for='star3')
-            input#star4(type='radio' name='star' value='4')
+            input#star4(type='radio' name='star' value='2')
             label(for='star4')
-            input#star5(type='radio' name='star' value='5' checked='checked')
+            input#star5(type='radio' name='star' value='1' checked='checked')
             label(for='star5')
         br
         br
         #form-group
-            label Description:
+            h5 Tell us how was your experience with this doctor:
             textarea.form-control(name='description')
         br
         input.btn.btn-primary(type='submit', value='Submit')

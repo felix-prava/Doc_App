@@ -4,6 +4,7 @@ const router = express.Router();
 //Bring in Models
 let UserModel = require('../models/user');
 let AppointmentModel = require('../models/appointment');
+let ReviewModel = require('../models/review');
 
 //Load appointment checking form
 router.get('/appointmentChecking', ensureAuthenticated, function(req, res){
@@ -120,15 +121,19 @@ router.get('/doctorslist', ensureAuthenticated, function(req, res){
     });
 });
 
-//Get Single Doctor
+//Get doctor's profile
 router.get('/doctorPofile/:id', ensureAuthenticated, function(req, res){
     UserModel.findById(req.params.id, function(err, user){
-        res.render('docProfile', {
-            doctor: user
-        }); 
+        ReviewModel.find({doctorName: user.name}, function(err, reviews){
+            res.render('docProfile', {
+                doctor: user,
+                reviews: reviews
+            }); 
+        });
     });
 });
 
+//Get review page
 router.get('/review/:id', ensureAuthenticated, function(req, res){
     UserModel.findById(req.params.id, function(err, user){
         res.render('reviewForm', {
@@ -137,11 +142,32 @@ router.get('/review/:id', ensureAuthenticated, function(req, res){
     });
 });
 
+//Add a review for a doctor
 router.post('/review/:id', function(req, res){
-    console.log('aaa');
-    console.log(req.body.star);
-    console.log(req.body.description);
-    res.redirect('/patients/review/'+req.params.id);
+    if (req.body.description == ''){
+        req.flash('danger', 'Would you like to give us some details?');
+        res.redirect('/patients/review/'+req.params.id);
+    } else{
+        let review = new ReviewModel();
+        UserModel.findById(req.params.id, function(err, doctor){
+            review.doctorId = req.params.id;
+            review.doctorName = doctor.name;
+            review.patientId = req.user._id;
+            review.patientName = req.user.name;
+            review.patientMessage = req.body.description;
+            review.numberOfStars = req.body.star;
+
+            review.save(function(err){
+                if (err){
+                    console.log(err);
+                    return;
+                } else{
+                    req.flash('success', 'Review Added');
+                    res.redirect('/home');
+                }
+            });
+        });    
+    }
 })
 
 //Access Control
