@@ -140,7 +140,6 @@ router.get('/appointment/done/:id', ensureAuthenticated, function(req, res){
 
 //Submit a future appointment 
 router.post('/appointment/:id', function(req, res){
-    console.log(req.body.size);
     
     AppointmentModel.findById(req.params.id, function(err, appointment){
         if (err){
@@ -182,16 +181,56 @@ router.post('/appointment/:id', function(req, res){
             appointmentDone.hour = appointment.hour;
             appointmentDone.status = 'Sent';
             appointmentDone.year = newYear;
-            
-            appointmentDone.save(function(err){
+
+            let correctDate = true;
+            if( (appointmentDone.day === '31') && (arr[nextMonth - 1] === 'February' || arr[nextMonth - 1] === 'April' || arr[nextMonth - 1] === 'June' || arr[nextMonth - 1] === 'September' || arr[nextMonth - 1] === 'November'))
+                correctDate = false;
+            if( (appointmentDone.day === '29' && arr[nextMonth - 1] === 'February') || (appointmentDone.day === '30' && arr[nextMonth - 1] === 'February'))
+                correctDate = false;
+            let query = {doctorName:appointment.doctorName, day:appointment.day, status: 'Sent', month:arr[nextMonth - 1], year:newYear, hour:appointment.hour};
+            let queryWithoutHours = {doctorName:appointment.doctorName, day:appointment.day, status: 'Sent', month:arr[nextMonth - 1], year:newYear}
+
+            AppointmentModel.find(queryWithoutHours, function(err, appointmentCheck){
                 if (err){
                     console.log(err);
-                    return;
                 } else{
-                    req.flash('success', 'New Appointment Set');
-                    res.redirect('/homeDoc');
+                    if (appointmentCheck){ 
+                        if(appointmentCheck.length == 12){ 
+                            console.log(appointmentCheck.length);
+                            console.log(appointmentCheck);
+                            req.flash('danger', 'All day is full');
+                            res.redirect('/doctors/appointment/'+appointment._id);
+                        } else{
+                            AppointmentModel.find(query, function(err, appointmentCheckHour){
+                                if (err){
+                                    console.log(err);
+                                } else{ 
+                                    if(appointmentCheckHour.length == 1){
+                                        req.flash('danger', 'There is already an appointment at this hour');
+                                        res.redirect('/doctors/appointment/'+appointment._id);
+                                    }
+                                    else{
+                                        if (correctDate == true){ 
+                                            appointmentDone.save(function(err){
+                                                if (err){
+                                                    console.log(err);
+                                                    return;
+                                                } else{
+                                                    req.flash('success', 'New Appointment Set');
+                                                    res.redirect('/homeDoc');
+                                                }
+                                            });
+                                        } else{
+                                            req.flash('danger', 'Over ' + req.body.size + ' month(s), does not exist ' + appointmentDone.day + ' of ' + appointmentDone.month);
+                                            res.redirect('/doctors/appointment/'+appointment._id); 
+                                        }
+                                    };                                
+                                }
+                            });
+                        }
+                    }
                 }
-            });
+            });   
         }
     });
 });

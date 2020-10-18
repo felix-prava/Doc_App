@@ -60,3 +60,13 @@
 {
     opacity: 1;
 }
+
+#abcd{
+    display: inline;
+    color: #a94442;
+    position: relative;
+    float: right
+}
+#newApp{
+    margin-right: 10px;
+}

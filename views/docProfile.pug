@@ -35,7 +35,7 @@ block content
             if (review.numberOfStars == '1')
                 li.list-group-item
                     a(href="/articles/")= review.patientName + ': ⭐'
-            li.list-group-item= review.patientMessage
+            li.list-group-item#abcd= review.patientMessage
         hr
     a.btn.btn-primary(href='/patients/review/'+doctor._id) Add a review
     //a.btn.btn-danger.delete-article(href='#', data-id=doctor._id) Delete
