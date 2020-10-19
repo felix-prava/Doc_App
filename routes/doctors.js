@@ -168,7 +168,7 @@ router.post('/appointment/:id', function(req, res){
                 else if (appointment.year == '2021')
                     newYear = '2022';
             } else{
-                newYear = '2020';
+                newYear = appointment.year;
             }
 
             appointmentDone.doctorId = appointment.doctorId;
@@ -196,8 +196,6 @@ router.post('/appointment/:id', function(req, res){
                 } else{
                     if (appointmentCheck){ 
                         if(appointmentCheck.length == 12){ 
-                            console.log(appointmentCheck.length);
-                            console.log(appointmentCheck);
                             req.flash('danger', 'All day is full');
                             res.redirect('/doctors/appointment/'+appointment._id);
                         } else{
@@ -235,13 +233,119 @@ router.post('/appointment/:id', function(req, res){
     });
 });
 
+//Redirect the information
+router.get('/appointment/selectDate/redirect/:id', ensureAuthenticated, function(req, res){
+    let idd = req.params.id;
+    res.redirect('/doctors/appointment/selectDate/'+idd);
+});
+
+//Get form for chack date
+router.get('/appointment/selectDate/:id', ensureAuthenticated, function(req, res){
+    res.render('doctorManualSelect',{
+        id: req.params.id
+    });
+});
+
+//Send the information to check the available hours
+router.post('/appointment/selectDate/:id', function(req, res){
+    const month = req.body.month;
+    const day = req.body.day;
+    const year = req.body.year;
+    let idd = req.params.id;
+    
+    if( (day === '29' && month === 'February') || (day === '30' && month === 'February')){
+        req.flash('danger', 'Not a valid day');
+        res.redirect('/doctors/appointment/selectDate/'+req.params.id);
+    }
+    else if( (day === '31') && (month === 'February' || month === 'April' || month === 'June' || month === 'September' || month === 'November')){
+        req.flash('danger', 'Not a valid day');
+        res.redirect('/doctors/appointment/selectDate/'+req.params.id);
+    } else {
+        res.redirect('/doctors/selectHour?month='+month+'&day='+day+'&year='+year+'&prevId='+idd);
+    }
+});
+
+//Get hour&message appointment form
+router.get('/selectHour', ensureAuthenticated, function(req, res){
+    doctorName = req.user.name;
+    month = req.query.month;
+    day = req.query.day;
+    year = req.query.year;
+    prevId = req.query.prevId;
+
+    hours = ["09:00","09:45","10:30","11:15","12:00","13:30","14:15","15:00","15:45","16:30","17:15","18:00"];
+    freeHours = [];
+    AppointmentModel.find({doctorName: doctorName, month: month, day: day, status:'Sent', year: year}, function(err, appointments){
+        if (err){
+            console.log(err);
+        } else{ 
+            console.log(appointments)
+            hours.forEach(testedHour => {
+                var find = false;
+                appointments.forEach(element => {
+                    if (testedHour == element.hour)
+                        find = true;
+                })
+                if (find == false)
+                    freeHours.push(testedHour);
+            })
+            res.render('doc_add_appointment',{
+                hours: freeHours,
+                doctorName: doctorName,
+                prevId: prevId
+            });
+        }
+    });
+});
+
+//Add an appointment
+router.post('/selectHour', function(req, res){
+    const doctorName = req.user.doctorName;
+    const month = req.query.month;
+    const day = req.query.day;
+    const hour = req.body.hour;
+    const year = req.query.year;
+    const details = req.body.details;
+    const idd = req.query.idd;
+    if(details == '' ){
+        req.flash('danger', 'Give us some details about your problem');
+        res.redirect('/doctors/selectHour?month='+month+'&day='+day+'&year='+year+'&prevId='+idd);
+    } else{ 
+        AppointmentModel.findOne({id: idd}, function(err, appoint){
+            if (err){
+                console.log(err);
+            } else{
+                let appointment = new AppointmentModel();
+                appointment.doctorId = req.user._id;
+                appointment.doctorName = req.user.name;
+                appointment.patientId = appoint.patientId;
+                appointment.patientName = appoint.patientName;
+                appointment.month = month;
+                appointment.day = day;
+                appointment.hour = hour;
+                appointment.year = year;
+                appointment.details = details;
+                appointment.status = 'Sent';
+                appointment.save(function(err){
+                    if (err){
+                        console.log(err);
+                        return;
+                    } else{
+                        req.flash('success', 'Appointment Saved');
+                        res.redirect('/homeDoc');
+                    }
+                });
+            }
+        });   
+    }
+});
+
 //Access Control
 function ensureAuthenticated(req, res, next){
     if(req.isAuthenticated()){
         if (req.user.role == 'Doctor')
             return next();
         else {
-            console.log(req.user.role);
             req.flash('danger', 'Not Authorized');
             res.redirect('/home');
         }
