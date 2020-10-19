@@ -2,8 +2,8 @@ extends layout
 
 block content
     if hours.length > 0
-        h1 Make an easy, quick appointment
-        form#appointment_(method='POST', action='/patients/appointment?doctorName='+doctorName+'&month='+month+'&day='+day+'&year='+year)
+        h1 Select the hour
+        form#appointment_(method='POST', action='/doctors/selectHour?month='+month+'&day='+day+'&year='+year+'&prevId='+idd) 
             #form-group
                 label Select a hour:
                 select#appointment_.form-control(form='appointment_', name='hour')
@@ -13,11 +13,11 @@ block content
             #form-group
                 label Aditional details:
                 textarea.form-control(name='details')
-            br
+                br
             input.btn.btn-primary(type='submit', value='Submit')
             br
     else
         br
         h2 Oops, looks like this day is already full
         br
-        a.btn.btn-primary(href='/patients/appointmentChecking/') Go back
+        a.btn.btn-primary(href='/doctors/appointment/'+prevId) Go back
