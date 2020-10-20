@@ -18,6 +18,19 @@ router.get('/dental-offices-list', ensureAuthenticated, function(req, res){
     });
 });
 
+//Get a single office
+router.get('/:id', ensureAuthenticated, function(req, res){
+    DentalOfficeModel.findById(req.params.id, function(err, dentalOffice){
+        if(err){
+            console.log(err);
+        } else{
+            res.render('singleOffice',{
+                dentalOffice: dentalOffice
+            });
+        }
+    });
+})
+
 //Access Control
 function ensureAuthenticated(req, res, next){
     if(req.isAuthenticated()){

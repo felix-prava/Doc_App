@@ -4,6 +4,8 @@ const router = express.Router();
 //Bring in Models
 let UserModel = require('../models/user');
 let AppointmentModel = require('../models/appointment');
+let DentalOfficeModel = require('../models/dentalOffice');
+const e = require('express');
 
 //Profile Editing Form
 router.get('/profile', ensureAuthenticated, function(req, res){
@@ -11,8 +13,15 @@ router.get('/profile', ensureAuthenticated, function(req, res){
         if (err){
             console.log(err);
         } else{
-            res.render('docProfileEdit',{
-                user: user
+            DentalOfficeModel.find({}, function(err, dentalOffices){
+                if(err){
+                    console.log(err);
+                } else{
+                    res.render('docProfileEdit',{
+                        user: user,
+                        dentalOffices: dentalOffices
+                    });
+                }
             });
         }
     })
@@ -27,7 +36,7 @@ router.post('/profile', function(req, res){
     newUser.password = req.user.password;
     newUser.role = 'Doctor';
     newUser.profile = req.body.profile;
-    newUser.dentalOffice = '';
+    newUser.dentalOffice = req.body.dentalOffice;
 
     req.checkBody('email', 'Email is not valid').isEmail();
     let errors = req.validationErrors();
