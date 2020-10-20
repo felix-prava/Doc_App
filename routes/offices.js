@@ -25,8 +25,11 @@ router.get('/:id', ensureAuthenticated, function(req, res){
         if(err){
             console.log(err);
         } else{
-            res.render('singleOffice',{
-                dentalOffice: dentalOffice
+            UserModel.find({role: 'Doctor', dentalOffice: dentalOffice.officeName}, function(err, doctors){
+                res.render('singleOffice',{
+                    dentalOffice: dentalOffice,
+                    doctors: doctors
+                });
             });
         }
     });

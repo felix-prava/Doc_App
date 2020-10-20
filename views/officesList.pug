@@ -6,4 +6,7 @@ block content
     each office, i in dentalOffices
         .container
             li.list-group-item
-                a(href="/offices/"+office._id)= office.officeName
+                h3
+                    a(href="/offices/"+office._id)= office.officeName
+                hr
+                p= office.shortDescription

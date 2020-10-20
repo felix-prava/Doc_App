@@ -123,7 +123,7 @@ router.get('/doctorslist', ensureAuthenticated, function(req, res){
 });
 
 //Get doctor's profile
-router.get('/doctorPofile/:id', ensureAuthenticated, function(req, res){
+router.get('/doctorProfile/:id', ensureAuthenticated, function(req, res){
     UserModel.findById(req.params.id, function(err, user){
         ReviewModel.find({doctorName: user.name}, function(err, reviews){
             DentalOfficeModel.findOne({officeName: user.dentalOffice}, function(err, dentalOffice){
