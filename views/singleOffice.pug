@@ -1,8 +1,15 @@
 extends layout
 
 block content
-    h1= 'article.title'
-    h5 Written by 
-    p= 'article.body'
+    h1= dentalOffice.officeName
+    br
+    h4 About us:
+    p= dentalOffice.longDescription
+    h6 Address:
+    p= dentalOffice.address
+    if dentalOffice.webPage != ''
+        h6 Web Page:
+        a(href=dentalOffice.webPage) #{dentalOffice.officeName} webpage: #{dentalOffice.webPage}
     hr
-    a.btn.btn-primary(href='/articles/edit/') Edit
+    a.btn.btn-primary(href='/offices/appointment/'+dentalOffice._id) Make an appointment
+    //Sorry, for the moment our doctors do not have an account yet😔 We will fix this soon

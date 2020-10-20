@@ -3,6 +3,7 @@ const router = express.Router();
 
 //Bring in models
 let DentalOfficeModel = require('../models/dentalOffice');
+let UserModel = require('../models/user');
 
 //List of dental offices
 router.get('/dental-offices-list', ensureAuthenticated, function(req, res){
@@ -27,6 +28,22 @@ router.get('/:id', ensureAuthenticated, function(req, res){
             res.render('singleOffice',{
                 dentalOffice: dentalOffice
             });
+        }
+    });
+});
+
+//Appointment for a dental office
+router.get('/appointment/:id', function(req, res){
+    DentalOfficeModel.findById(req.params.id, function(err, dentalOffice){
+        if(err){
+            console.log(err);
+        } else{
+            UserModel.find({role: 'Doctor', dentalOffice: dentalOffice.officeName}, function(err, doctors){
+                res.render('officeAddApp',{
+                    dentalOffice: dentalOffice,
+                    doctors: doctors
+                });
+            });          
         }
     });
 })
