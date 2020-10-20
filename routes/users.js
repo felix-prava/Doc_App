@@ -5,6 +5,7 @@ const passport = require('passport');
 
 //Bring in User Model
 let UserModel = require('../models/user');
+const dentalOffice = require('../models/dentalOffice');
 
 //Register Form
 router.get('/register', function(req, res){
@@ -68,7 +69,8 @@ router.post('/register', function(req, res){
                         username: username,
                         password: password,
                         role: role,
-                        profile: ''
+                        profile: '',
+                        dentalOffice: 'None'
                     });
 
                     bcrypt.genSalt(10, function(err, salt){

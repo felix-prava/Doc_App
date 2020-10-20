@@ -24,6 +24,9 @@ let UserSchema = mongoose.Schema({
     },
     profile:{
         type: String
+    },
+    dentalOffice:{
+        type: String
     }
 });
 

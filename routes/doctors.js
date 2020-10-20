@@ -27,6 +27,7 @@ router.post('/profile', function(req, res){
     newUser.password = req.user.password;
     newUser.role = 'Doctor';
     newUser.profile = req.body.profile;
+    newUser.dentalOffice = '';
 
     req.checkBody('email', 'Email is not valid').isEmail();
     let errors = req.validationErrors();

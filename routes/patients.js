@@ -5,18 +5,47 @@ const router = express.Router();
 let UserModel = require('../models/user');
 let AppointmentModel = require('../models/appointment');
 let ReviewModel = require('../models/review');
+let DentalOfficeModel = require('../models/dentalOffice');
 
 //Load appointment checking form
 router.get('/appointmentChecking', ensureAuthenticated, function(req, res){
-    UserModel.find({role: 'Doctor'}, function(err, doctors){
-        if (err){
-            console.log(err);
-        } else{
-            res.render('firstAppointment',{
-                doctors: doctors
-            });
-        }
-    });
+    let dentalOffice = new DentalOfficeModel();
+    dentalOffice.officeName = 'DrLeahuClinic';
+    dentalOffice.address = 'Str. Vasile Alecsandri, nr 24';
+    dentalOffice.doctors = [];
+    dentalOffice.webPage = 'https:://cliniciledrleahu.ro/clinica-stomatologica-timisoara/';
+    dentalOffice.shortDescription = 'We are a team of dentists from Timișoara with over 11 years of experience in the field.';
+    dentalOffice.longDescription = 'A modern dental center in Timisoara '
+    + 'Dr. Moraru Grigore leads a young and well-trained team of dentists passionate about this profession and devoted to their work. '
+    +'With the help of this team of dentists you are provided with a whole range of specialized dental services:\n'
+    +'- Dental implant\n'
+    +'- Dental surgery\n'
+    +'- Prosthetics: dental prostheses - fixed prosthesis, mobile prosthesis, skeletal prosthesis\n'
+    +'- Dental aesthetics: dental descaling, teeth whitening, tooth brushing, dental fluoridation\n'
+    +'- Dental radiology: periapical or retroalveolar radiography, occlusal radiography, bitewing radiography, panoramic radiography\n'
+    +'- Physiognomic fillings\n'
+    +'- Orthodontics\n'
+    +'- Endodontic treatments\n'
+    +'- Pedodontics\n'
+    +'- Prophylaxis\n'
+   dentalOffice.save(function(err){
+    if (err){
+        console.log(err);
+        return;
+    } else{
+        req.flash('success', 'You are now registered!');
+        res.redirect('/users/login');
+    }
+});
+    // UserModel.find({role: 'Doctor'}, function(err, doctors){
+    //     if (err){
+    //         console.log(err);
+    //     } else{
+    //         res.render('firstAppointment',{
+    //             doctors: doctors
+    //         });
+    //     }
+    // });
 });
 
 //Send the information to check the available hours
