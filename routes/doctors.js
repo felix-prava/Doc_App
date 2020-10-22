@@ -350,6 +350,19 @@ router.post('/selectHour', function(req, res){
     }
 });
 
+router.get('/my-list', ensureAuthenticated, function(req, res){
+    AppointmentModel.find({doctorName: req.user.name, status: 'Sent'}, function(err, appointments){
+        if(err){
+            console.log(err);
+        }
+        else{
+            res.render('doc_my_appointments',{
+                appointments: appointments
+            });
+        }
+    });
+});
+
 //Access Control
 function ensureAuthenticated(req, res, next){
     if(req.isAuthenticated()){
