@@ -174,6 +174,19 @@ router.post('/review/:id', function(req, res){
     }
 })
 
+router.get('/my-appointments', ensureAuthenticated, function(req, res){
+    AppointmentModel.find({patientName: req.user.name, status: 'Sent'}, function(err, appointments){
+        if(err){
+            console.log(err);
+        }
+        else{
+            res.render('my_appointments',{
+                appointments: appointments
+            });
+        }
+    });
+});
+
 //Access Control
 function ensureAuthenticated(req, res, next){
     if(req.isAuthenticated()){

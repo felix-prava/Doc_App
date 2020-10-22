@@ -85,16 +85,7 @@ app.get('*', function(req, res, next){
 
 //Home Route
 app.get('/', function(req, res){
-    ArticleModel.find({}, function(err, articles){
-        if (err){
-            console.log(err);
-        } else{
-            res.render('index', {
-                title: 'Articles',
-                articles: articles
-            });
-        }
-    });
+    res.redirect('/users/login');
 });
 
 //Home Route for Patient
