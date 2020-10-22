@@ -38,12 +38,11 @@ html
                                 if user.role == 'Patient'
                                     a.dropdown-item(href='/patients/appointmentChecking') Make an appointment
                                     a.dropdown-item(href='/patients/doctorslist') List of doctors
-                                    a.dropdown-item(href='/offices/dental-offices-list') List of future appointments
+                                    a.dropdown-item(href='/offices/dental-offices-list') List of dental offices
                             if user
                                 if user.role == 'Doctor'
                                     a.dropdown-item(href='/doctors/selectDate') Future appointments
                                     a.dropdown-item(href='/doctors/profile') My profile
-                            a.dropdown-item(href='#') Something else here
                 ul.nav.nav-navbar.navbar-right
                     if user
                         li.nav-item

@@ -4,5 +4,6 @@ block content
     h1 The List of Doctors
     ul.list-group
     each doctor, i in doctors
-        li.list-group-item
-            a(href="/patients/doctorProfile/"+doctor._id)= doctor.name
+        h5
+            li.list-group-item
+                a(href="/patients/doctorProfile/"+doctor._id)= doctor.name
