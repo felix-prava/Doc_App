@@ -2,24 +2,24 @@ let mongoose = require('mongoose');
 
 // Dental Office Schema
 let dentalOfficeSchema = mongoose.Schema({
-    officeName:{
+    officeName :{
         type: String,
         required: true
     },
-    address:{
+    address :{
         type: String,
         require: true
     },
-    doctors:{
+    doctors :{
         type: Array
     },
-    webPage:{
+    webPage :{
         type: String
     },
-    shortDescription:{
+    shortDescription :{
         type: String
     },
-    longDescription:{
+    longDescription :{
         type: String
     }
 });

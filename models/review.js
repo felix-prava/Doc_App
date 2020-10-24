@@ -2,27 +2,27 @@ let mongoose = require('mongoose');
 
 // Review Schema
 let reviewSchema = mongoose.Schema({
-    doctorId:{
+    doctorId :{
         type: String,
         required: true
     },
-    doctorName:{
+    doctorName :{
         type: String,
         required: true
     },
-    patientId:{
+    patientId :{
         type: String,
         required: true
     },
-    patientName:{
+    patientName :{
         type: String,
         required: true
     },
-    patientMessage:{
+    patientMessage :{
         type: String,
         required: true
     },
-    numberOfStars:{
+    numberOfStars :{
         type: String,
         required: true
     }

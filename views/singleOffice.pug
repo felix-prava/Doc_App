@@ -17,7 +17,7 @@ block content
         ul.list-group
         each doctor, i in doctors
             li.list-group-item
-                a(href="/patients/doctorProfile/"+doctor._id)= doctor.name
+                a(href="/patients/doctor/profile/"+doctor._id)= doctor.name
         br
         br
     a.btn.btn-primary(href='/offices/appointment/'+dentalOffice._id) Make an appointment

@@ -5,7 +5,6 @@ const router = express.Router();
 let UserModel = require('../models/user');
 let AppointmentModel = require('../models/appointment');
 let DentalOfficeModel = require('../models/dentalOffice');
-const e = require('express');
 
 //Profile Editing Form
 router.get('/profile', ensureAuthenticated, function(req, res){
@@ -350,7 +349,7 @@ router.post('/selectHour', function(req, res){
     }
 });
 
-router.get('/my-list', ensureAuthenticated, function(req, res){
+router.get('/list/my_appointments', ensureAuthenticated, function(req, res){
     AppointmentModel.find({doctorName: req.user.name, status: 'Sent'}, function(err, appointments){
         if(err){
             console.log(err);

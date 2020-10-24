@@ -40,24 +40,19 @@ block content
         selectMonth.insertBefore(option,selectMonth.lastChild);
         }
 
-        var selectDay = document.getElementById("selectDay"),
-        arr = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21 ","22","23","24","25","26","27","28","29","30"];
-        for(var i = 0; i < arr.length; i++)
+        var selectDay = document.getElementById("selectDay");
+        for(var i = 1; i < 31; i++)
         {
         var option = document.createElement("OPTION"),
-        txt = document.createTextNode(arr[i]);
+        txt = document.createTextNode(i);
         option.appendChild(txt);
-        option.setAttribute("value",arr[i]);
+        option.setAttribute("value",i);
         selectDay.insertBefore(option,selectDay.lastChild);
         }
 
-        var selectYear = document.getElementById("selectYear"),
-        arr = ["2020"];
-        for(var i = 0; i < arr.length; i++)
-        {
+        var selectYear = document.getElementById("selectYear");
         var option = document.createElement("OPTION"),
-        txt = document.createTextNode(arr[i]);
+        txt = document.createTextNode("2020");
         option.appendChild(txt);
-        option.setAttribute("value",arr[i]);
+        option.setAttribute("value","2020");
         selectYear.insertBefore(option,selectYear.lastChild);
-        }

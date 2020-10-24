@@ -6,6 +6,6 @@ block content
     each appointment, i in appointments
         .container
             li.list-group-item Doctor's name: 
-                a(href="/patients/doctorProfile/"+appointment.doctorId)= appointment.doctorName
+                a(href="/patients/doctor/profile/"+appointment.doctorId)= appointment.doctorName
             li.list-group-item Date: #{appointment.day}/#{appointment.month}/#{appointment.year} at #{appointment.hour}
             hr

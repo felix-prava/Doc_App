@@ -3,7 +3,7 @@ extends layout
 block content
     if hours.length > 0
         h1 Make an easy, quick appointment
-        form#appointment_(method='POST', action='/offices/appointment/check/selectHour?month='+month+'&day='+day+'&year='+year+'&idd='+idd)
+        form#appointment_(method='POST', action='/offices/appointment/select/available/hour?month='+month+'&day='+day+'&year='+year+'&idd='+idd)
             #form-group
                 label Select a hour:
                 select#appointment_.form-control(form='appointment_', name='hour')
