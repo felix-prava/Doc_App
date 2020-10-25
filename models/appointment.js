@@ -2,47 +2,47 @@ let mongoose = require('mongoose');
 
 // Appointment Schema
 let appointmentSchema = mongoose.Schema({
-    doctorId:{
+    doctorId :{
         type: String,
         required: true
     },
-    doctorName:{
+    doctorName :{
         type: String,
         required: true
     },
-    patientId:{
+    patientId :{
         type: String,
         required: true
     },
-    patientName:{
+    patientName :{
         type: String,
         required: true
     },
-    month:{
+    month :{
         type: String,
         required: true,
     },
-    day:{
+    day :{
         type: String,
         required: true
     },
-    hour:{
+    hour :{
         type: String,
         required: true
     },
-    year:{
+    year :{
         type: String,
         required: true
     },
-    details:{
+    details :{
         type: String,
         required: true
     },
-    status:{
+    status :{
         type: String,
         required: true
     },
-    docMessage:{
+    docMessage :{
         type: String
     }
 });

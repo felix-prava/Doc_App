@@ -1,0 +1,23 @@
+extends layout
+
+block content
+    if hours.length > 0
+        h1 Make an easy, quick appointment
+        form#appointment_(method='POST', action='/offices/appointment/select/available/hour?month='+month+'&day='+day+'&year='+year+'&idd='+idd)
+            #form-group
+                label Select a hour:
+                select#appointment_.form-control(form='appointment_', name='hour')
+                    each hour in hours
+                        option(name='hour', type='text') #{hour}
+                br
+            #form-group
+                label Aditional details:
+                textarea.form-control(name='details')
+            br
+            input.btn.btn-primary(type='submit', value='Submit')
+            br
+    else
+        br
+        h2 Oops, looks like this day is already full
+        br
+        a.btn.btn-primary(href='/patients/appointmentChecking/') Go back

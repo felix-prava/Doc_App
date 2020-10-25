@@ -8,6 +8,9 @@ block content
     div
         p= doctor.profile
     hr
+    if dentalOffice.officeName != 'None'
+        p Working at 
+            a(href='/offices/'+dentalOffice._id) #{dentalOffice.officeName}
     br
     br
     br
@@ -21,21 +24,23 @@ block content
     each review, i in reviews
         ul.list-group
             if (review.numberOfStars == '5')
-                li.list-group-item
-                    a(href="/articles/")= review.patientName + ': ⭐⭐⭐⭐⭐'
+                li.list-group-item= review.patientName + ': ⭐⭐⭐⭐⭐'
             if (review.numberOfStars == '4')
-                li.list-group-item
-                    a(href="/articles/")= review.patientName + ': ⭐⭐⭐⭐'
+                li.list-group-item= review.patientName + ': ⭐⭐⭐⭐'
             if (review.numberOfStars == '3')
-                li.list-group-item
-                    a(href="/articles/")= review.patientName + ': ⭐⭐⭐'
+                li.list-group-item= review.patientName + ': ⭐⭐⭐'
             if (review.numberOfStars == '2')
-                li.list-group-item
-                    a(href="/articles/")= review.patientName + ': ⭐⭐'
+                li.list-group-item= review.patientName + ': ⭐⭐'
             if (review.numberOfStars == '1')
-                li.list-group-item
-                    a(href="/articles/")= review.patientName + ': ⭐'
+                li.list-group-item= review.patientName + ': ⭐'
             li.list-group-item#abcd= review.patientMessage
         hr
     a.btn.btn-primary(href='/patients/review/'+doctor._id) Add a review
-    //a.btn.btn-danger.delete-article(href='#', data-id=doctor._id) Delete
+    script.
+        var hash = function (patientName, numberOfStars){
+            let nrStars = 6 % Number(numberOfStars);
+            let result = patientName + ': ' 
+            for (int i = 1; i <= nrStars; i++)
+                result += '⭐';
+            return result;
+        }

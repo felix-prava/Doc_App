@@ -1,0 +1,58 @@
+extends layout
+
+block content
+    if doctors.length > 0
+        h1 Choose a date then check the available hours
+        form#appointment_(method='POST', action='/offices/appointment/'+idd)
+            #form-group
+                label Day:
+                select#selectDay.form-control(form='appointment_', name='day')
+                    option(value='31', name='day', form='appointment_', type='text') 31
+                br
+            #form-group
+                label Month:
+                select#selectMonth.form-control(form='appointment_', name='month')
+                    option(placeholder='December', name='month', form='appointment_') December
+                br
+            #form-group
+                label Year:
+                select#selectYear.form-control(form='appointment_', name='year')
+                    option(placeholder='2021', name='year', form='appointment_') 2021
+                br
+            br
+            input.btn.btn-primary(type='submit', value='Check')
+            a#goback.btn.btn-primary(href='/offices/dental/offices/list') Go back
+            br
+    else
+        h1 Sorry, for the moment our doctors do not have an account yet😔 We will fix this soon
+        br
+        br
+        a.btn.btn-primary(href='/offices/dental/offices/list') Go back
+    script.
+        var selectMonth = document.getElementById("selectMonth"),
+        arr = ["January","February","March","April","May","June","July","August","September","October", "November"];
+        for(var i = 0; i < arr.length; i++)
+        {
+        var option = document.createElement("OPTION"),
+        txt = document.createTextNode(arr[i]);
+        option.appendChild(txt);
+        option.setAttribute("value",arr[i]);
+        selectMonth.insertBefore(option,selectMonth.lastChild);
+        }
+
+        var selectDay = document.getElementById("selectDay");
+        for(var i = 1; i < 31; i++)
+        {
+        var option = document.createElement("OPTION"),
+        txt = document.createTextNode(i);
+        option.appendChild(txt);
+        option.setAttribute("value",i);
+        selectDay.insertBefore(option,selectDay.lastChild);
+        }
+
+        var selectYear = document.getElementById("selectYear");
+        var option = document.createElement("OPTION"),
+        txt = document.createTextNode("2020");
+        option.appendChild(txt);
+        option.setAttribute("value","2020");
+        selectYear.insertBefore(option,selectYear.lastChild);

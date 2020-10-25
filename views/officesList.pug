@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h1 #{title}
+    ul.list-group
+    each office, i in dentalOffices
+        .container
+            li.list-group-item
+                h3
+                    a(href="/offices/"+office._id)= office.officeName
+                hr
+                p= office.shortDescription

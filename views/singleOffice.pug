@@ -1,0 +1,24 @@
+extends layout
+
+block content
+    h1= dentalOffice.officeName
+    br
+    h4 About us:
+    p= dentalOffice.longDescription
+    h6 Address:
+    p= dentalOffice.address
+    if dentalOffice.webPage != ''
+        h6 #{dentalOffice.officeName} Web Page: 
+        a(href=dentalOffice.webPage) #{dentalOffice.webPage}
+    hr
+    if doctors.length > 0
+        br
+        h5 Our doctors:
+        ul.list-group
+        each doctor, i in doctors
+            li.list-group-item
+                a(href="/patients/doctor/profile/"+doctor._id)= doctor.name
+        br
+        br
+    a.btn.btn-primary(href='/offices/appointment/'+dentalOffice._id) Make an appointment
+    

@@ -5,6 +5,7 @@ const passport = require('passport');
 
 //Bring in User Model
 let UserModel = require('../models/user');
+const dentalOffice = require('../models/dentalOffice');
 
 //Register Form
 router.get('/register', function(req, res){
@@ -68,7 +69,8 @@ router.post('/register', function(req, res){
                         username: username,
                         password: password,
                         role: role,
-                        profile: ''
+                        profile: '',
+                        dentalOffice: 'None'
                     });
 
                     bcrypt.genSalt(10, function(err, salt){
@@ -101,24 +103,15 @@ router.get('/login', function(req, res){
 
 //Login Process
 router.post('/login', function(req, res, next){
-    if (1 == 2){ 
-        passport.authenticate('local', {
-            successRedirect:'/users/redirect',
-            failureRedirect: '/users/login',
-            failureFlash: true
-        })(req, res, next);
-    } else{
-        passport.authenticate('local', {
-            successRedirect:'/users/redirect',
-            failureRedirect: '/users/login',
-            failureFlash: true
-        })(req, res, next);
-    }
-    
+    passport.authenticate('local', {
+        successRedirect:'/users/redirect',
+        failureRedirect: '/users/login',
+        failureFlash: true
+    })(req, res, next);
 });
 
 //Users Redirect
-router.get('/redirect', ensureAuthenticated, function(req, res){
+router.get('/redirect', isAuthenticated, function(req, res){
     if (req.user.role === 'Doctor')
         res.redirect('/homeDoc');
     else
@@ -133,7 +126,7 @@ router.get('/logout', function(req, res){
 })
 
 //Access Control
-function ensureAuthenticated(req, res, next){
+function isAuthenticated(req, res, next){
     if(req.isAuthenticated()){
         return next();
     } else{

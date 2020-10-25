@@ -2,11 +2,11 @@ let mongoose = require('mongoose');
 
 // User Schema
 let UserSchema = mongoose.Schema({
-    name:{
+    name :{
         type: String,
         required: true
     },
-    email:{
+    email :{
         type: String,
         required: true
     },
@@ -14,15 +14,18 @@ let UserSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    password:{
+    password :{
         type: String,
         required: true
     },
-    role:{
+    role :{
         type: String,
         required: true
     },
-    profile:{
+    profile :{
+        type: String
+    },
+    dentalOffice :{
         type: String
     }
 });
