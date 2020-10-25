@@ -7,7 +7,7 @@ let userModel = require('../models/user');
 let appointmentModel = require('../models/appointment')
 
 //List of dental offices
-router.get('/dental/offices/list', ensureAuthenticated, function(req, res){
+router.get('/dental/offices/list', isAuthenticated, function(req, res){
     dentalOfficeModel.find({}, function(err, dentalOffices){
         if (err){
             console.log(err);
@@ -21,7 +21,7 @@ router.get('/dental/offices/list', ensureAuthenticated, function(req, res){
 });
 
 //Get a single office
-router.get('/:id', ensureAuthenticated, function(req, res){
+router.get('/:id', isAuthenticated, function(req, res){
     dentalOfficeModel.findById(req.params.id, function(err, dentalOffice){
         if(err){
             console.log(err);
@@ -37,7 +37,7 @@ router.get('/:id', ensureAuthenticated, function(req, res){
 });
 
 //Appointment for a dental office
-router.get('/appointment/:id', ensureAuthenticated, function(req, res){
+router.get('/appointment/:id', isAuthenticated, function(req, res){
     dentalOfficeModel.findById(req.params.id, function(err, dentalOffice){
         if(err){
             console.log(err);
@@ -60,11 +60,13 @@ router.post('/appointment/:id', function(req, res){
     const year = req.body.year;
     const idd = req.params.id;
     
+    let invalidMonths = ["February", "April", "June", "September", "November"];
+    
     if( (day === '29' && month === 'February') || (day === '30' && month === 'February')){
         req.flash('danger', 'Not a valid day');
         res.redirect('/offices/appointment/'+idd);
     }
-    else if( (day === '31') && (month === 'February' || month === 'April' || month === 'June' || month === 'September' || month === 'November')){
+    else if (invalidDates(invalidMonths, '31', month, day) == 0){
         req.flash('danger', 'Not a valid day');
         res.redirect('/offices/appointment/'+idd);
     } else {
@@ -73,7 +75,7 @@ router.post('/appointment/:id', function(req, res){
 });
 
 //Load appointment form
-router.get('/appointment/select/available/hour', ensureAuthenticated, function(req, res){
+router.get('/appointment/select/available/hour', isAuthenticated, function(req, res){
     let idd = req.query.idd;
     let month = req.query.month;
     let day = req.query.day;
@@ -140,7 +142,7 @@ router.post('/appointment/select/available/hour', function(req, res){
     const details = req.body.details;
     if(details == '' ){
         req.flash('danger', 'Give us some details about your problem');
-        res.redirect('/offices/appointment/check/selectHour?month='+month+'&day='+day+'&year='+year+'&idd='+idd);
+        res.redirect('/offices/appointment/select/available/hour?month='+month+'&day='+day+'&year='+year+'&idd='+idd);
     } else{ 
         dentalOfficeModel.findById(idd, function(err, dentalOffice){
             if(err){
@@ -180,7 +182,7 @@ router.post('/appointment/select/available/hour', function(req, res){
 });
 
 //Access Control
-function ensureAuthenticated(req, res, next){
+function isAuthenticated(req, res, next){
     if(req.isAuthenticated()){
         if (req.user.role == 'Patient')
             return next();
@@ -215,6 +217,18 @@ function newAppointment(doctor_id, doctor_name, patient_id, patient_name, month,
         }
     });
     return 1;
+}
+
+//Check for invalid dates
+function invalidDates(months, day, actualMonth, actualDay){
+    if (actualDay != day)
+        return 1;
+    else{
+        if (months.includes(actualMonth))
+            return 0;
+        else    
+            return 1;
+    }
 }
 
 module.exports = router;

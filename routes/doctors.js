@@ -2,17 +2,17 @@ const express = require('express');
 const router = express.Router();
 
 //Bring in Models
-let UserModel = require('../models/user');
-let AppointmentModel = require('../models/appointment');
-let DentalOfficeModel = require('../models/dentalOffice');
+let userModel = require('../models/user');
+let appointmentModel = require('../models/appointment');
+let dentalOfficeModel = require('../models/dentalOffice');
 
 //Profile Editing Form
-router.get('/profile', ensureAuthenticated, function(req, res){
-    UserModel.findById(req.user._id, function(err, user){
+router.get('/profile', isAuthenticated, function(req, res){
+    userModel.findById(req.user._id, function(err, user){
         if (err){
             console.log(err);
         } else{
-            DentalOfficeModel.find({}, function(err, dentalOffices){
+            dentalOfficeModel.find({}, function(err, dentalOffices){
                 if(err){
                     console.log(err);
                 } else{
@@ -43,7 +43,7 @@ router.post('/profile', function(req, res){
         req.flash('danger', 'Email is not valid');
         res.redirect('/doctors/profile');
     } else{
-        UserModel.updateOne({_id:req.user._id}, newUser, function(err){
+        userModel.updateOne({_id:req.user._id}, newUser, function(err){
             if (err){
                 console.log(err);
                 return;
@@ -56,12 +56,12 @@ router.post('/profile', function(req, res){
 });
 
 //Select a date for future appointments
-router.get('/selectDate', ensureAuthenticated, function(req, res){
+router.get('/selectDate', isAuthenticated, function(req, res){
     res.render('docSelectNextApp');
 });
 
 //Send the information to check the future appointments
-router.post('/selectDate', ensureAuthenticated, function(req, res){
+router.post('/selectDate', function(req, res){
     const year = req.body.year;
     const month = req.body.month;
     const day = req.body.day;
@@ -79,8 +79,8 @@ router.post('/selectDate', ensureAuthenticated, function(req, res){
 });
 
 //List of a doctor's future appointments
-router.get('/futureAppointments', ensureAuthenticated, function(req, res){
-    AppointmentModel.find({doctorName: req.user.name, status: 'Sent', year: req.query.year, month:req.query.month, day:req.query.day}, function(err, appointments){
+router.get('/futureAppointments', isAuthenticated, function(req, res){
+    appointmentModel.find({doctorName: req.user.name, status: 'Sent', year: req.query.year, month:req.query.month, day:req.query.day}, function(err, appointments){
         if(err){ 
             console.log(err);
         } else{
@@ -101,8 +101,8 @@ router.get('/futureAppointments', ensureAuthenticated, function(req, res){
 });
 
 //Select a date for future appointments
-router.get('/appointment/:id', ensureAuthenticated, function(req, res){
-    AppointmentModel.findById(req.params.id, function(err, appointment){
+router.get('/appointment/:id', isAuthenticated, function(req, res){
+    appointmentModel.findById(req.params.id, function(err, appointment){
         if (err){
             console.log(err);
         } else{
@@ -114,8 +114,8 @@ router.get('/appointment/:id', ensureAuthenticated, function(req, res){
 });
 
 //Change the status of the appointment
-router.get('/appointment/done/:id', ensureAuthenticated, function(req, res){
-    AppointmentModel.findById(req.params.id, function(err, appointment){
+router.get('/appointment/done/:id', isAuthenticated, function(req, res){
+    appointmentModel.findById(req.params.id, function(err, appointment){
         if (err){
             console.log(err);
         } else{
@@ -133,7 +133,7 @@ router.get('/appointment/done/:id', ensureAuthenticated, function(req, res){
                 appointmentDone.year = appointment.year;
                 let query = {_id:req.params.id};
 
-                AppointmentModel.updateOne(query, appointmentDone, function(err){
+                appointmentModel.updateOne(query, appointmentDone, function(err){
                     if (err){
                         console.log(err);
                         return;
@@ -150,14 +150,14 @@ router.get('/appointment/done/:id', ensureAuthenticated, function(req, res){
 //Submit a future appointment 
 router.post('/appointment/:id', function(req, res){
     
-    AppointmentModel.findById(req.params.id, function(err, appointment){
+    appointmentModel.findById(req.params.id, function(err, appointment){
         if (err){
             console.log(err);
         } else{
-            let appointmentDone = new AppointmentModel();
+            let appointmentDone = new appointmentModel();
             var nextMonth = Number(req.body.size);
             var changeYear = false;
-            arr = ["January","February","March","April","May","June","July","August","September","October", "November","December"];
+            arr = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             for(var i = 0; i < arr.length; i++){
                 if (arr[i] == appointment.month)
                     var index = i + 1;
@@ -199,7 +199,7 @@ router.post('/appointment/:id', function(req, res){
             let query = {doctorName:appointment.doctorName, day:appointment.day, status: 'Sent', month:arr[nextMonth - 1], year:newYear, hour:appointment.hour};
             let queryWithoutHours = {doctorName:appointment.doctorName, day:appointment.day, status: 'Sent', month:arr[nextMonth - 1], year:newYear}
 
-            AppointmentModel.find(queryWithoutHours, function(err, appointmentCheck){
+            appointmentModel.find(queryWithoutHours, function(err, appointmentCheck){
                 if (err){
                     console.log(err);
                 } else{
@@ -208,7 +208,7 @@ router.post('/appointment/:id', function(req, res){
                             req.flash('danger', 'All day is full');
                             res.redirect('/doctors/appointment/'+appointment._id);
                         } else{
-                            AppointmentModel.find(query, function(err, appointmentCheckHour){
+                            appointmentModel.find(query, function(err, appointmentCheckHour){
                                 if (err){
                                     console.log(err);
                                 } else{ 
@@ -243,13 +243,13 @@ router.post('/appointment/:id', function(req, res){
 });
 
 //Redirect the information
-router.get('/appointment/selectDate/redirect/:id', ensureAuthenticated, function(req, res){
+router.get('/appointment/selectDate/redirect/:id', isAuthenticated, function(req, res){
     let idd = req.params.id;
     res.redirect('/doctors/appointment/selectDate/'+idd);
 });
 
 //Get form for chack date
-router.get('/appointment/selectDate/:id', ensureAuthenticated, function(req, res){
+router.get('/appointment/selectDate/:id', isAuthenticated, function(req, res){
     res.render('doctorManualSelect',{
         id: req.params.id
     });
@@ -275,7 +275,7 @@ router.post('/appointment/selectDate/:id', function(req, res){
 });
 
 //Get hour&message appointment form
-router.get('/selectHour', ensureAuthenticated, function(req, res){
+router.get('/selectHour', isAuthenticated, function(req, res){
     doctorName = req.user.name;
     month = req.query.month;
     day = req.query.day;
@@ -284,11 +284,10 @@ router.get('/selectHour', ensureAuthenticated, function(req, res){
 
     hours = ["09:00","09:45","10:30","11:15","12:00","13:30","14:15","15:00","15:45","16:30","17:15","18:00"];
     freeHours = [];
-    AppointmentModel.find({doctorName: doctorName, month: month, day: day, status:'Sent', year: year}, function(err, appointments){
+    appointmentModel.find({doctorName: doctorName, month: month, day: day, status:'Sent', year: year}, function(err, appointments){
         if (err){
             console.log(err);
-        } else{ 
-            console.log(appointments)
+        } else{
             hours.forEach(testedHour => {
                 var find = false;
                 appointments.forEach(element => {
@@ -317,14 +316,13 @@ router.post('/selectHour', function(req, res){
     const details = req.body.details;
     const idd = req.query.idd;
     if(details == '' ){
-        req.flash('danger', 'Give us some details about your problem');
-        res.redirect('/doctors/selectHour?month='+month+'&day='+day+'&year='+year+'&prevId='+idd);
+        details = 'Dental control';
     } else{ 
-        AppointmentModel.findOne({id: idd}, function(err, appoint){
+        appointmentModel.findOne({id: idd}, function(err, appoint){
             if (err){
                 console.log(err);
             } else{
-                let appointment = new AppointmentModel();
+                let appointment = new appointmentModel();
                 appointment.doctorId = req.user._id;
                 appointment.doctorName = req.user.name;
                 appointment.patientId = appoint.patientId;
@@ -349,8 +347,8 @@ router.post('/selectHour', function(req, res){
     }
 });
 
-router.get('/list/my_appointments', ensureAuthenticated, function(req, res){
-    AppointmentModel.find({doctorName: req.user.name, status: 'Sent'}, function(err, appointments){
+router.get('/list/my_appointments', isAuthenticated, function(req, res){
+    appointmentModel.find({doctorName: req.user.name, status: 'Sent'}, function(err, appointments){
         if(err){
             console.log(err);
         }
@@ -363,7 +361,7 @@ router.get('/list/my_appointments', ensureAuthenticated, function(req, res){
 });
 
 //Access Control
-function ensureAuthenticated(req, res, next){
+function isAuthenticated(req, res, next){
     if(req.isAuthenticated()){
         if (req.user.role == 'Doctor')
             return next();

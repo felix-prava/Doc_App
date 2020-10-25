@@ -24,15 +24,12 @@ db.on('error', function(err){
 //Init app
 const app = express();
 
-//Bring in Models
-let ArticleModel = require('./models/article');
 
 //Load View Engine
 app.set('views',path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 //Body Parser Middleware
-
 app.use(bodyParser.urlencoded({extended: false}))
 //Parse application/json
 app.use(bodyParser.json());
@@ -91,16 +88,9 @@ app.get('/', function(req, res){
 //Home Route for Patient
 app.get('/home', function(req, res){
     if (req.isAuthenticated()){
-        if (req.user.role === 'Patient'){  
-            ArticleModel.find({}, function(err, articles){
-                if (err){
-                    console.log(err);
-                } else{
-                    res.render('homePatient', {
-                        title: 'Patient Home',
-                        articles: articles
-                    });
-                }
+        if (req.user.role === 'Patient'){
+            res.render('homePatient', {
+                title: 'Patient Home'
             });
         } else{
             req.flash('danger', 'Not Authorized');
@@ -115,16 +105,9 @@ app.get('/home', function(req, res){
 //Home Route for Doctor
 app.get('/homeDoc',  function(req, res){
     if (req.isAuthenticated()){
-        if (req.user.role === 'Doctor'){ 
-            ArticleModel.find({}, function(err, articles){
-                if (err){
-                    console.log(err);
-                } else{
-                    res.render('homeDoctor', {
-                        title: 'Doctor Home',
-                        articles: articles
-                    });
-                }
+        if (req.user.role === 'Doctor'){
+            res.render('homeDoctor', {
+                title: 'Doctor Home'
             });
         } else{
             req.flash('danger', 'Not Authorized');
@@ -137,12 +120,10 @@ app.get('/homeDoc',  function(req, res){
 }); 
 
 //Route Files
-let articles = require('./routes/articles');
 let users = require('./routes/users');
 let patients = require('./routes/patients');
 let doctors = require('./routes/doctors');
-let offices = require('./routes/offices')
-app.use('/articles', articles);
+let offices = require('./routes/offices');
 app.use('/users', users);
 app.use('/patients', patients);
 app.use('/doctors', doctors);
