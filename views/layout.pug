@@ -38,6 +38,8 @@ html
                                 a.nav-link(href='/doctors/profile') My profile
                             li.nav-item
                                 a.nav-link(href='/doctors/selectDate') Schedule
+                    li.nav-item
+                                a.nav-link(href='/chat') Chat
                     li.nav-item.dropdown
                         a#dropdown01.nav-link.dropdown-toggle(href='#', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') 
                         .dropdown-menu(aria-labelledby='dropdown01')
@@ -54,6 +56,7 @@ html
                                     a.dropdown-item(href='/doctors/list/my_appointments') List of appointments
                                     a.dropdown-item(href='/doctors/profile') My profile
                                     a.dropdown-item(href='/doctors/selectDate') Schedule
+                            a.dropdown-item(href='/chat') Chat
                 ul.nav.nav-navbar.navbar-right
                     if user
                         li.nav-item

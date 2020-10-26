@@ -1,0 +1,18 @@
+extends layout
+
+block content
+    h1 Chat
+    br
+    if conversations.length > 0
+        ul.list-group
+        each conversation, i in conversations
+            ul.list-group
+                if user.role == 'Doctor'
+                    a(href='/chat/conversation/'+conversation._id) #{conversation.patientUsername} (#{conversation.patientName})
+                else
+                    a(href='/chat/conversation/'+conversation._id) #{conversation.doctorUsername}  (#{conversation.doctorName})
+            hr
+    else
+        h5 You don't have any messages
+    br
+    a.btn.btn-primary(href='/chat/new/conversation') New conversation

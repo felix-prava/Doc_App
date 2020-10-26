@@ -73,3 +73,9 @@
 #goback{
     margin-left: 10px;
 }
+#doctors-messages{
+    color: #1f9cff
+}
+#patients-messages{
+    color: #5ff30a
+}
