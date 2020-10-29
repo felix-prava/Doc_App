@@ -33,7 +33,7 @@ router.get('', isAuthenticated, function(req, res){
 });
 
 //Select a user for the new conversation
-router.get('/new/conversation', isAuthenticated, function(req, res){
+router.get('/add/conversation', isAuthenticated, function(req, res){
     if (req.user.role == 'Patient'){
         userModel.find({role: 'Doctor'}, function(err, doctors){
             let users = [];
@@ -63,7 +63,7 @@ router.get('/new/conversation', isAuthenticated, function(req, res){
 });
 
 //Create a new conversation
-router.post('/new/conversation', function(req, res){
+router.post('/add/conversation', function(req, res){
     secondUser_ = req.body.userName;
     userModel.findOne({name: secondUser_}, function(err, secondUser){
         if (err){

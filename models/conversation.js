@@ -1,20 +1,20 @@
 let mongoose = require('mongoose');
 
-// Conversation Schema
-let ConversationSchema = mongoose.Schema({
-    patientName :{
+// Messages Schema
+let messagesSchema = mongoose.Schema({
+    patientName: {
         type: String,
         required: true
     },
-    patientUsername :{
+    patientUsername: {
         type: String,
         required: true
     },
-    patientId :{
+    patientId: {
         type: String,
         required: true
     },
-    doctorName:{
+    doctorName: {
         type: String,
         required: true
     },
@@ -22,13 +22,13 @@ let ConversationSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    doctorId :{
+    doctorId: {
         type: String,
         required: true
     },
-    messages :{
+    messages: {
         type: Array
     }
 });
 
-const Conversation = module.exports = mongoose.model('Conversation', ConversationSchema);
+const Messages = module.exports = mongoose.model('Messages', messagesSchema);
