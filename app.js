@@ -124,10 +124,12 @@ let users = require('./routes/users');
 let patients = require('./routes/patients');
 let doctors = require('./routes/doctors');
 let offices = require('./routes/offices');
+let chat = require('./routes/chat');
 app.use('/users', users);
 app.use('/patients', patients);
 app.use('/doctors', doctors);
 app.use('/offices', offices);
+app.use('/chat', chat);
 
 //Start Server
 app.listen(3000, function(){

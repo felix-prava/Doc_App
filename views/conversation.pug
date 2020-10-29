@@ -1,0 +1,55 @@
+extends layout
+
+block content
+    h1 Chat
+    br
+    ul.list-group
+    if conversation.messages != null
+        if conversation.messages.length > 0
+            each message, i in conversation.messages
+                if message.slice(0,1) == '1' && abc == '1'
+                    - var abc = '1'
+                    ul.list-group
+                        li.list-group-item= message.slice(1)
+                    br
+                else if message.slice(0,1) == '1' && abc == '2'
+                    - var abc = '1'
+                    ul.list-group
+                        li.list-group-item
+                            p#doctors-messages= conversation.doctorUsername
+                            p= message.slice(1)
+                    br
+                else if message.slice(0,1) == '2' && abc == '1'
+                    - var abc = '2'
+                    ul.list-group
+                        li.list-group-item
+                            p#patients-messages= conversation.patientUsername
+                            p= message.slice(1)
+                    br
+                else if message.slice(0,1) == '2' && abc == '2'
+                    - var abc = '2' 
+                    ul.list-group
+                        li.list-group-item= message.slice(1)
+                    br
+                else if message.slice(0,1) == '2'
+                    - var abc = '2' 
+                    ul.list-group
+                        li.list-group-item
+                            p#patients-messages= conversation.patientUsername
+                            p= message.slice(1)
+                    br
+                else if message.slice(0,1) == '1'
+                    - var abc = '1' 
+                    ul.list-group
+                        li.list-group-item
+                            p#doctors-messages= conversation.doctorUsername
+                            p= message.slice(1)
+                    br
+        else
+            h5 Start the conversation
+    form#appointment_(method='POST', action='/chat/conversation/'+conversation._id)
+        #form-group
+            input.form-control(name='message', type='text')
+        br
+        input.btn.btn-primary(type='submit', value='Send')
+        br

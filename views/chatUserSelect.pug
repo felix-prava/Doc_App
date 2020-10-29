@@ -1,0 +1,17 @@
+extends layout
+
+block content
+    h1 Chat
+    br
+    h5 You don't have any messages
+    br
+    form#appointment_(method='POST', action='/chat/add/conversation')
+        #form-group
+            label Who do you want to talk to?
+            select#appointment_.form-control(form='appointment_', name='userName')
+                each user in users
+                    option(name='userName', type='text') #{user}
+            br
+        br
+        input.btn.btn-primary(type='submit', value='Start a new conversation')
+        br

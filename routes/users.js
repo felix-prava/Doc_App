@@ -4,8 +4,8 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 
 //Bring in User Model
-let UserModel = require('../models/user');
-const dentalOffice = require('../models/dentalOffice');
+let userModel= require('../models/user');
+let dentalOffice = require('../models/dentalOffice');
 
 //Register Form
 router.get('/register', function(req, res){
@@ -21,7 +21,7 @@ router.post('/register', function(req, res){
     const password2 = req.body.password2;
     const role = req.body.role;
 
-    UserModel.findOne(req.params.username, function(err, user){
+    userModel.findOne(req.params.username, function(err, user){
         if(user.username == req.body.username){
             req.flash('danger', 'Username is already used');
             res.redirect('/users/register');
@@ -63,7 +63,7 @@ router.post('/register', function(req, res){
                         errors:errors
                     });
                 } else{
-                    let newUser = new UserModel({
+                    let newUser = new userModel({
                         name: name,
                         email: email,
                         username: username,
