@@ -2,6 +2,14 @@
 
 **Version 1.0.0**
 
+In the project directory, you can run:
+
+npm start
+Runs the app in the development mode.
+Open http://localhost:3000 to view it in the browser.
+
+The page will reload if you make edits.
+
 This is an application with the role of helping people to program more easily at the dentist. Instead of calling every doctor/dental office just to check their 
 schedule or maybe just to ask when could you make an appointment, now you can do all this and more online.
 
