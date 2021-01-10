@@ -2,6 +2,7 @@ extends layout
 
 block content
     h1 Choose a date then check the available hours
+    br
     form#appointment_(method='POST', action='/patients/appointmentChecking')
         #form-group
             label Select a doctor:
