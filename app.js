@@ -31,6 +31,7 @@ app.set('view engine', 'pug');
 
 //Body Parser Middleware
 app.use(bodyParser.urlencoded({extended: false}))
+
 //Parse application/json
 app.use(bodyParser.json());
 

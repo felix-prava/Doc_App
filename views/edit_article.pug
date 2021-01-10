@@ -2,6 +2,7 @@ extends layout
 
 block content
     h1 #{title}
+    br
     form(method='POST', action='/articles/edit/'+article._id)
         #form-group
             label Title:
