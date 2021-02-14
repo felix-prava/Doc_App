@@ -33,6 +33,14 @@ If a patient have questions, he/she can talk with a doctor **using the chat.** A
 A doctor have a list with all of their "unresolved" appointments and after an appointment is done the dentist may decide to make a **recurring appointment** for the patient (for an monthly control)
 The doctor can also edit his profile and chat with other patients.
 
+![image](https://user-images.githubusercontent.com/62405899/107881657-fe702900-6eed-11eb-847d-70709fed4d5d.png)
+
+
+![image](https://user-images.githubusercontent.com/62405899/107881695-35463f00-6eee-11eb-81c1-5a4c54daceb7.png)
+
+
+![image](https://user-images.githubusercontent.com/62405899/107881713-45f6b500-6eee-11eb-99e8-d6f55306e92b.png)
+
 How to make an appointment for a patient
 
 ![image](https://user-images.githubusercontent.com/62405899/107881314-7e958f00-6eec-11eb-8c6d-cf6160a2fcf3.png)
